@@ -12,14 +12,24 @@ te harán sentir como en casa.
 
 TABLAS Y/O ENTIDADES TENTABLES
 
-Clientes(cliente_id, nombre, telefono, direccion, fecha_resgistro)
+Clientes( id, nombre(30), apellido_paterno(30), apellido_materno(30), telefono(8), direccion(250)) 
 
-Productos(producto_id, nombre, descripcion, precio, categoria, estado)
+Ventas( id, id_cliente, fecha_venta, total(5,2)) 
 
-Pedidos(pedido_id, cliente_id, fecha_pedido, total, estado)
+Detalles_Venta( id, id_venta, id_producto, cantidad) 
 
-Detalles_Pedidos(detalle_id, pedido_id, producto_id, cantidad)
+Productos( id, nombre(30), descripcion(250), precio(3,2), id_categoria) 
 
-Empleados(empleado_id, nombre, puesto, telefono, fecha_contratacion)
+Categorias( id, nombre(30), descripcion(250)) 
 
-Proveedores(proveedor_id, nombre, telefono, direccion)
+Proveedores( id, id_producto, nombre(30), apellido_paterno(30), telefono(8), direccion(250)) 
+
+Inventario( id, id_producto, cantidad_disponible, id_proveedor) 
+
+Empleados(id, nombre(30), apellido_paterno(30), apellido_materno(30), cargo(40), telefono(8), salario) 
+
+Usuario(id, id_empleado, nombre_usuario(30), clave(250))
+
+Pagos( id, id_venta, monto(5,2), fecha_pago, metodo_pago) 
+
+Promociones( id, nombre(30), descripcion(250), fecha_inicio, fecha_fin, id_producto) 
