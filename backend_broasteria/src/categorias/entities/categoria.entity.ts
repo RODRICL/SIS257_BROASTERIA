@@ -6,7 +6,7 @@ export class Categoria {
   id: number;
 
   @Column('varchar', { length: 30 })
-  nombre: string;
+  nombre: string; 
 
   @Column('varchar', { length: 250 })
   descripcion: string;

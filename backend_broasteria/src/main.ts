@@ -15,7 +15,7 @@ async function bootstrap() {
     .setTitle('API Rest Laboratorio SIS257')
     .setDescription('API Rest de la broasteria')
     .setVersion('1.0')
-    .addTag('categoria')
+    .addTag('categoria,clientes')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('apidoc', app, document);
