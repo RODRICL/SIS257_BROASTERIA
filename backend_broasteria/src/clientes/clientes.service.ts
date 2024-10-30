@@ -20,8 +20,8 @@ export class ClientesService {
   
     const cliente = new Cliente();
     cliente.nombres = createClienteDto.nombres.trim();
-    cliente.apellido_paterno = createClienteDto.apellido_paterno.trim();
-    cliente.apellido_materno = createClienteDto.apellido_materno.trim();
+    cliente.apellidoPaterno = createClienteDto.apellido_paterno.trim();
+    cliente.apellidoMaterno = createClienteDto.apellido_materno.trim();
     cliente.telefono = createClienteDto.telefono.trim();
     cliente.direccion = createClienteDto.direccion.trim();
   
