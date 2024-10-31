@@ -7,13 +7,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('clientes')
-export class Cliente {
-  @PrimaryGeneratedColumn()
+@Entity('empleados')
+export class Empleado {
+  @PrimaryGeneratedColumn('identity')
   id: number;
 
   @Column('varchar', { length: 30, nullable: false })
-  nombres: string;
+  nombre: string;
 
   @Column('varchar', { length: 30, nullable: false, name: 'apellido_paterno' })
   apellidoPaterno: string;
@@ -21,11 +21,14 @@ export class Cliente {
   @Column('varchar', { length: 30, nullable: false, name: 'apellido_materno' })
   apellidoMaterno: string;
 
+  @Column('varchar', { length: 40, nullable: false })
+  cargo: string;
+
   @Column('varchar', { length: 8, nullable: false })
   telefono: string;
 
-  @Column('varchar', { length: 250, nullable: false })
-  direccion: string;
+  @Column('varchar', { length: 10, nullable: false })
+  salario: string;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
