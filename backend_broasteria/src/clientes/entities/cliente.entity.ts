@@ -13,7 +13,7 @@ export class Cliente {
   id: number;
 
   @Column('varchar', { length: 30, nullable: false })
-  nombres: string;
+  nombre: string;
 
   @Column('varchar', { length: 30, nullable: false, name: 'apellido_paterno' })
   apellidoPaterno: string;

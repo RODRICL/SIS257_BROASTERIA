@@ -17,15 +17,15 @@ export class ClientesService {
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     const existe = await this.clientesRepository.findOneBy({
-      nombres: createClienteDto.nombres.trim(),
+      nombre: createClienteDto.nombre.trim(),
     });
 
     if (existe) throw new ConflictException('Ya existe el cliente');
 
     const cliente = new Cliente();
-    cliente.nombres = createClienteDto.nombres.trim();
-    cliente.apellidoPaterno = createClienteDto.apellido_paterno.trim();
-    cliente.apellidoMaterno = createClienteDto.apellido_materno.trim();
+    cliente.nombre = createClienteDto.nombre.trim();
+    cliente.apellidoPaterno = createClienteDto.apellidoPaterno.trim();
+    cliente.apellidoMaterno = createClienteDto.apellidoMaterno.trim();
     cliente.telefono = createClienteDto.telefono.trim();
     cliente.direccion = createClienteDto.direccion.trim();
 
@@ -38,7 +38,7 @@ export class ClientesService {
 
   async findOne(id: number): Promise<Cliente> {
     const cliente = await this.clientesRepository.findOneBy({ id });
-    if (!cliente) throw new NotFoundException('La categoria no existe');
+    if (!cliente) throw new NotFoundException('El cliente no existe');
     return cliente;
   }
 

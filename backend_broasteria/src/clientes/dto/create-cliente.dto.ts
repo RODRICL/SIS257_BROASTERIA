@@ -10,7 +10,7 @@ export class CreateClienteDto {
   @MinLength(4, {
     message: 'El campo nombres no debe ser mayor a 4 caracteres',
   })
-  readonly nombres: string;
+  readonly nombre: string;
 
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo apellidos no debe ser vacío' })
@@ -21,7 +21,7 @@ export class CreateClienteDto {
   @MinLength(4, {
     message: 'El campo apellidos no debe ser mayor a 4 caracteres',
   })
-  readonly apellido_paterno: string;
+  readonly apellidoPaterno: string;
 
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo apellidos no debe ser vacío' })
@@ -32,7 +32,7 @@ export class CreateClienteDto {
   @MinLength(4, {
     message: 'El campo apellidos no debe ser mayor a 4 caracteres',
   })
-  readonly apellido_materno: string;
+  readonly apellidoMaterno: string;
 
   @ApiProperty()
   @IsNotEmpty({ message: 'El campo telefono no debe ser vacío' })
