@@ -15,12 +15,12 @@ async function bootstrap() {
     .setTitle('API Rest Laboratorio SIS257')
     .setDescription('API Rest de la broasteria')
     .setVersion('1.0')
-    .addTag('categoria,clientes')
+    .addTag('swagger')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('apidoc', app, document);
 
   await app.listen(process.env.PORT);
-  console.log(`App corriendon ${await app.getUrl()}/apidoc`);
+  console.log(`App corriendo ${await app.getUrl()}/apidoc`);
 }
 bootstrap();
