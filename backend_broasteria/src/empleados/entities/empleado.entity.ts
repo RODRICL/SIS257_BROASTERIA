@@ -1,8 +1,11 @@
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -38,4 +41,7 @@ export class Empleado {
 
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
+
+  @OneToOne(() => Usuario, (usuario) => usuario.empleado)
+  usuario: Usuario[];
 }
