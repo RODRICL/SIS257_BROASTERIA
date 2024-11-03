@@ -46,7 +46,7 @@ export class CategoriasService {
   ): Promise<Categoria> {
     const categoria = await this.findOne(id);
     const categoriaUpdate = Object.assign(categoria, updateCategoriaDto);
-    return this.categoriasRepository.save(categoria);
+    return this.categoriasRepository.save(categoriaUpdate);
   }
 
   async remove(id: number) {

@@ -52,7 +52,7 @@ export class EmpleadosService {
   ): Promise<Empleado> {
     const empleado = await this.findOne(id);
     const updateEmpleado = Object.assign(empleado, updateEmpleadoDto);
-    return this, this.empleadosRepository.save(updateEmpleado);
+    return this.empleadosRepository.save(updateEmpleado);
   }
 
   async remove(id: number) {

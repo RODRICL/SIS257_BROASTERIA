@@ -1,5 +1,4 @@
-import { Categoria } from 'src/categorias/entities/categoria.entity';
-import { Promocion } from 'src/promociones/entities/promocion.entity';
+import { Producto } from 'src/productos/entities/producto.entity';
 import {
   Column,
   CreateDateColumn,
@@ -7,18 +6,17 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('productos')
-export class Producto {
+@Entity('promociones')
+export class Promocion {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column('integer', { name: 'id_categoria' })
-  idCategoria: number;
+  @Column('integer', { name: 'id_producto' })
+  idProducto: number;
 
   @Column('varchar', { length: 30 })
   nombre: string;
@@ -26,8 +24,11 @@ export class Producto {
   @Column('varchar', { length: 250 })
   descripcion: string;
 
-  @Column('int')
-  precio: number;
+  @Column('date', { name: 'fecha_inicio' })
+  fechaInicio: Date;
+
+  @Column('date', { name: 'fecha_fin' })
+  fechaFin: Date;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
@@ -38,10 +39,7 @@ export class Producto {
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
 
-  @ManyToOne(() => Categoria, (categoria) => categoria.productos)
-  @JoinColumn({ name: 'id_categoria', referencedColumnName: 'id' })
-  categoria: Categoria;
-
-  @OneToMany(() => Promocion, (promocion) => promocion.producto)
-  promociones: Promocion[];
+  @ManyToOne(() => Producto, (producto) => producto.promociones)
+  @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
+  producto: Producto;
 }
