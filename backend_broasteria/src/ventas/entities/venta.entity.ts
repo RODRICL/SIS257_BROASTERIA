@@ -1,4 +1,5 @@
 import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { Pago } from 'src/pagos/entities/pago.entity';
 import {
   Column,
   CreateDateColumn,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -36,4 +38,7 @@ export class Venta {
   @ManyToOne(() => Cliente, (cliente) => cliente.ventas)
   @JoinColumn({ name: 'id_cliente', referencedColumnName: 'id' })
   cliente: Cliente;
+
+  @OneToOne(() => Pago, (pago) => pago.venta)
+  pago: Pago[];
 }

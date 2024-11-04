@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateProveedorDto } from './dto/create-proveedor.dto';
 import { UpdateProveedorDto } from './dto/update-proveedor.dto';
 import { Proveedor } from './entities/proveedor.entity';
@@ -27,7 +31,7 @@ export class ProveedoresService {
     proveedor.telefono = createProveedorDto.telefono.trim();
     proveedor.direccion = createProveedorDto.direccion.trim();
     return this.proveedoresRepository.save(proveedor);
-  } 
+  }
 
   async findAll(): Promise<Proveedor[]> {
     return this.proveedoresRepository.find({
@@ -36,7 +40,7 @@ export class ProveedoresService {
   }
 
   async findOne(id: number): Promise<Proveedor> {
-    const proveedor = await this.proveedoresRepository.findOne({ 
+    const proveedor = await this.proveedoresRepository.findOne({
       where: { id },
       relations: ['producto'],
     });
