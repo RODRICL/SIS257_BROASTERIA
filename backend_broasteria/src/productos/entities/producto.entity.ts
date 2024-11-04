@@ -1,5 +1,6 @@
 import { Categoria } from 'src/categorias/entities/categoria.entity';
 import { Promocion } from 'src/promociones/entities/promocion.entity';
+import { Proveedor } from 'src/proveedores/entities/proveedor.entity';
 import {
   Column,
   CreateDateColumn,
@@ -44,4 +45,7 @@ export class Producto {
 
   @OneToMany(() => Promocion, (promocion) => promocion.producto)
   promociones: Promocion[];
+
+  @OneToMany(() => Proveedor, (proveedor) => proveedor.producto)
+  proveedores: Proveedor[];
 }
