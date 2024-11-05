@@ -1,3 +1,4 @@
+import { Inventario } from 'src/inventarios/entities/inventario.entity';
 import { Producto } from 'src/productos/entities/producto.entity';
 import {
   Column,
@@ -6,6 +7,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -42,4 +44,7 @@ export class Proveedor {
   @ManyToOne(() => Producto, (producto) => producto.proveedores)
   @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
   producto: Producto;
+
+  @OneToOne(() => Inventario, (inventario) => inventario.proveedor)
+  inventario: Inventario[];
 }
