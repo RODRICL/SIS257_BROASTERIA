@@ -1,29 +1,29 @@
 import { Producto } from 'src/productos/entities/producto.entity';
-import { Proveedor } from 'src/proveedores/entities/proveedor.entity';
+import { Venta } from 'src/ventas/entities/venta.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('inventarios')
-export class Inventario {
+@Entity('detallesVentas')
+export class DetallesVenta {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
   @Column('integer', { name: 'id_producto' })
   idProducto: number;
 
-  @Column('integer', { name: 'id_proveedor' })
-  idProveedor: number;
+  @Column('integer', { name: 'id_venta' })
+  idVenta: number;
 
   @Column('int', { name: 'cantidad_disponible' })
-  cantidadDisponible: number;
+  cantidad: number;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
@@ -34,11 +34,11 @@ export class Inventario {
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
 
-  @OneToOne(() => Producto, (producto) => producto.inventario)
+  @ManyToOne(() => Producto, (producto) => producto.detallesVentas)
   @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
   producto: Producto;
 
-  @OneToOne(() => Proveedor, (proveedor) => proveedor.inventario)
-  @JoinColumn({ name: 'id_proveedor', referencedColumnName: 'id' })
-  proveedor: Proveedor;
+  @ManyToOne(() => Venta, (venta) => venta.detallesVentas)
+  @JoinColumn({ name: 'id_venta', referencedColumnName: 'id' })
+  venta: Venta;
 }

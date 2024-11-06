@@ -1,4 +1,5 @@
 import { Categoria } from 'src/categorias/entities/categoria.entity';
+import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
 import { Inventario } from 'src/inventarios/entities/inventario.entity';
 import { Promocion } from 'src/promociones/entities/promocion.entity';
 import { Proveedor } from 'src/proveedores/entities/proveedor.entity';
@@ -53,4 +54,7 @@ export class Producto {
 
   @OneToOne(() => Inventario, (inventario) => inventario.producto)
   inventario: Inventario[];
+
+  @OneToMany(() => DetallesVenta, (detallesVentas) => detallesVentas.producto)
+  detallesVentas: DetallesVenta[];
 }

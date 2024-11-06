@@ -1,4 +1,8 @@
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateInventarioDto } from './dto/create-inventario.dto';
 import { UpdateInventarioDto } from './dto/update-inventario.dto';
 import { Inventario } from './entities/inventario.entity';
@@ -59,4 +63,3 @@ export class InventariosService {
     return this.inventariosRepository.softRemove(inventario);
   }
 }
-

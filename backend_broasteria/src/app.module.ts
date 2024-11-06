@@ -13,6 +13,7 @@ import { PromocionesModule } from './promociones/promociones.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
 import { PagosModule } from './pagos/pagos.module';
 import { InventariosModule } from './inventarios/inventarios.module';
+import { DetallesVentasModule } from './detalles-ventas/detalles-ventas.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { InventariosModule } from './inventarios/inventarios.module';
     ProveedoresModule,
     PagosModule,
     InventariosModule,
+    DetallesVentasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

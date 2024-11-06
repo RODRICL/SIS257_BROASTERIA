@@ -1,4 +1,5 @@
 import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
 import { Pago } from 'src/pagos/entities/pago.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -41,4 +43,7 @@ export class Venta {
 
   @OneToOne(() => Pago, (pago) => pago.venta)
   pago: Pago[];
+
+  @OneToMany(() => DetallesVenta, (detallesVentas) => detallesVentas.venta)
+  detallesVentas: DetallesVenta[];
 }

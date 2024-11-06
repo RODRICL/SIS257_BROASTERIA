@@ -1,5 +1,5 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsDefined, IsNumber } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsDefined, IsNumber } from 'class-validator';
 
 export class CreateInventarioDto {
   @ApiProperty()
@@ -14,6 +14,9 @@ export class CreateInventarioDto {
 
   @ApiProperty()
   @IsDefined({ message: 'El campo cantidadDisponible debe estar definido' })
-  @IsNumber({}, { message: 'El campo cantidadDisponible debe ser tipo numérico' })
+  @IsNumber(
+    {},
+    { message: 'El campo cantidadDisponible debe ser tipo numérico' },
+  )
   readonly cantidadDisponible: number;
 }
