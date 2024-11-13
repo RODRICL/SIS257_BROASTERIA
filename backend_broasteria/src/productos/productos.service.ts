@@ -27,6 +27,7 @@ export class ProductosService {
     producto.idCategoria = createProductoDto.idCategoria;
     producto.nombre = createProductoDto.nombre.trim();
     producto.descripcion = createProductoDto.descripcion.trim();
+    producto.cantidadDisponible = createProductoDto.cantidadDisponible;
     producto.precio = createProductoDto.precio;
     return this.productosRepository.save(producto);
   }

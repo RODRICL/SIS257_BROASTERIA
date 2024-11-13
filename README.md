@@ -18,13 +18,11 @@ Ventas( id, id_cliente, fecha_venta, total(5,2))
 
 Detalles_Venta( id, id_venta, id_producto, cantidad) 
 
-Productos( id, nombre(30), descripcion(250), precio(3,2), id_categoria) 
+Productos( id, nombre(30), descripcion(250),cantidad_disponible, precio(3,2), id_categoria) 
 
 Categorias( id, nombre(30), descripcion(250)) 
 
 Proveedores( id, id_producto, nombre(30), apellido_paterno(30), telefono(8), direccion(250)) 
-
-Inventario( id, id_producto, cantidad_disponible, id_proveedor) 
 
 Empleados(id, nombre(30), apellido_paterno(30), apellido_materno(30), cargo(40), telefono(8), salario) 
 

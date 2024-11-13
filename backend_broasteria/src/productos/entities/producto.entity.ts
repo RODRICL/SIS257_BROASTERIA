@@ -1,6 +1,5 @@
 import { Categoria } from 'src/categorias/entities/categoria.entity';
 import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
-import { Inventario } from 'src/inventarios/entities/inventario.entity';
 import { Promocion } from 'src/promociones/entities/promocion.entity';
 import { Proveedor } from 'src/proveedores/entities/proveedor.entity';
 import {
@@ -30,6 +29,9 @@ export class Producto {
   @Column('varchar', { length: 250 })
   descripcion: string;
 
+  @Column('int', { name: 'cantidad_disponible' })
+  cantidadDisponible: number;
+
   @Column('int')
   precio: number;
 
@@ -51,9 +53,6 @@ export class Producto {
 
   @OneToMany(() => Proveedor, (proveedor) => proveedor.producto)
   proveedores: Proveedor[];
-
-  @OneToOne(() => Inventario, (inventario) => inventario.producto)
-  inventario: Inventario[];
 
   @OneToMany(() => DetallesVenta, (detallesVentas) => detallesVentas.producto)
   detallesVentas: DetallesVenta[];

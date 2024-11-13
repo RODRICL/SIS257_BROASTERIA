@@ -30,6 +30,11 @@ export class CreateProductoDto {
   readonly descripcion: string;
 
   @ApiProperty()
+  @IsDefined({ message: 'El campo cantidadDisponible debe estar definido' })
+  @IsNumber({}, { message: 'El campo cantidadDisponible debe ser tipo numérico' })
+  readonly cantidadDisponible: number;
+
+  @ApiProperty()
   @IsDefined({ message: 'El campo precio debe estar definido' })
   @IsNumber({}, { message: 'El campo precio debe ser tipo numérico' })
   readonly precio: number;

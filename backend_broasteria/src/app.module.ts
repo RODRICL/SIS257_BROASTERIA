@@ -12,7 +12,6 @@ import { UsuariosModule } from './usuarios/usuarios.module';
 import { PromocionesModule } from './promociones/promociones.module';
 import { ProveedoresModule } from './proveedores/proveedores.module';
 import { PagosModule } from './pagos/pagos.module';
-import { InventariosModule } from './inventarios/inventarios.module';
 import { DetallesVentasModule } from './detalles-ventas/detalles-ventas.module';
 
 @Module({
@@ -38,7 +37,6 @@ import { DetallesVentasModule } from './detalles-ventas/detalles-ventas.module';
     PromocionesModule,
     ProveedoresModule,
     PagosModule,
-    InventariosModule,
     DetallesVentasModule,
   ],
   controllers: [AppController],

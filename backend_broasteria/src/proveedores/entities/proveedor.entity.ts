@@ -1,4 +1,3 @@
-import { Inventario } from 'src/inventarios/entities/inventario.entity';
 import { Producto } from 'src/productos/entities/producto.entity';
 import {
   Column,
@@ -45,6 +44,4 @@ export class Proveedor {
   @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
   producto: Producto;
 
-  @OneToOne(() => Inventario, (inventario) => inventario.proveedor)
-  inventario: Inventario[];
 }
