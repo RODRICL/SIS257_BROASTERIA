@@ -38,6 +38,9 @@ export class Cliente {
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
 
+  @Column('varchar', { length: 8, nullable: true })
+  ci: string;
+
   @OneToMany(() => Venta, (venta) => venta.cliente)
   ventas: Venta[];
 }

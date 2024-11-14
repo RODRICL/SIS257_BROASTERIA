@@ -17,7 +17,7 @@ export class ClientesService {
 
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     const existe = await this.clientesRepository.findOneBy({
-      nombre: createClienteDto.nombre.trim(),
+      ci: createClienteDto.ci.trim(),
     });
 
     if (existe) throw new ConflictException('Ya existe el cliente');
@@ -28,6 +28,7 @@ export class ClientesService {
     cliente.apellidoMaterno = createClienteDto.apellidoMaterno.trim();
     cliente.telefono = createClienteDto.telefono.trim();
     cliente.direccion = createClienteDto.direccion.trim();
+    cliente.ci = createClienteDto.ci.trim();
 
     return this.clientesRepository.save(cliente);
   }

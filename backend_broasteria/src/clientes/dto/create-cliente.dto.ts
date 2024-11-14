@@ -55,4 +55,15 @@ export class CreateClienteDto {
     message: 'El campo direccion no debe ser mayor a 4 caracteres',
   })
   readonly direccion: string;
+
+  @ApiProperty()
+  @IsNotEmpty({ message: 'El campo ci no debe ser vacío' })
+  @IsString({ message: 'El campo ci debe ser de tipo cadena' })
+  @MaxLength(8, {
+    message: 'El campo ci no debe ser nemor a 8 caracteres',
+  })
+  @MinLength(4, {
+    message: 'El campo ci no debe ser mayor a 4 caracteres',
+  })
+  readonly ci: string;
 }
