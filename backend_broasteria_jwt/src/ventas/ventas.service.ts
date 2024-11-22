@@ -1,62 +1,91 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { CreateVentaDto } from './dto/create-venta.dto';
-import { UpdateVentaDto } from './dto/update-venta.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
 import { Repository } from 'typeorm';
+import { CreateVentaDto } from './dto/create-venta.dto';
 import { Venta } from './entities/venta.entity';
+import { UpdateVentaDto } from './dto/update-venta.dto';
 
 @Injectable()
 export class VentasService {
   constructor(
-    @InjectRepository(Venta)
-    private ventasRepository: Repository<Venta>,
+    @InjectRepository(Venta) private ventasRepository: Repository<Venta>,
+    @InjectRepository(DetallesVenta)
+    private detalleventaRepository: Repository<DetallesVenta>,
   ) {}
+
+  // Elimina la verificación de "venta existente" para permitir múltiples ventas por cliente
   async create(createVentaDto: CreateVentaDto): Promise<Venta> {
-    const existe = await this.ventasRepository.findOneBy({
-      fechaVenta: createVentaDto.fechaVenta,
-      idCliente: createVentaDto.idCliente,
-      total: createVentaDto.total,
+    // Ya no estamos verificando si existe una venta para este cliente
+
+    // Crear la venta sin montoTotal
+    const venta = new Venta();
+    venta.cliente = { id: createVentaDto.idCliente } as Cliente;
+
+    // Guardamos la venta inicialmente
+    const savedVenta = await this.ventasRepository.save(venta);
+
+    // Obtenemos los detalles de venta para esta venta recién creada
+    const detallesVenta = await this.detalleventaRepository.find({
+      where: { venta: { id: savedVenta.id } },
     });
 
-    if (existe) throw new ConflictException('La venta ya existe');
+    // Calcular el monto total
+    const montoTotal = detallesVenta.reduce(
+      (total, detalle) => total + venta.total,
+      0,
+    );
 
-    const venta = new Venta();
-    venta.idCliente = createVentaDto.idCliente;
-    venta.fechaVenta = createVentaDto.fechaVenta;
-    venta.total = createVentaDto.total;
-    return this.ventasRepository.save(venta);
+    // Actualizar la venta con el montoTotal calculado
+    savedVenta.total = montoTotal;
+
+    // Guardamos la venta con el monto total actualizado
+    return this.ventasRepository.save(savedVenta);
   }
 
   async findAll(): Promise<Venta[]> {
-    return this.ventasRepository.find({
-      relations: ['cliente'],
-    });
+    return this.ventasRepository.find({ relations: ['cliente'] });
   }
 
   async findOne(id: number): Promise<Venta> {
     const venta = await this.ventasRepository.findOne({
       where: { id },
-      relations: ['cliente'],
+      relations: ['cliente', 'detalleventas'],
     });
-    if (!venta) throw new NotFoundException('La venta no existe');
+    if (!venta) {
+      throw new NotFoundException(`La venta ${id} no existe`);
+    }
     return venta;
   }
 
+  // Método para actualizar parcialmente una venta existente (usando PATCH)
   async update(id: number, updateVentaDto: UpdateVentaDto): Promise<Venta> {
-    const venta = await this.ventasRepository.findOneBy({ id });
-    if (!venta) throw new NotFoundException('La venta no existe');
+    const venta = await this.ventasRepository.findOne({ where: { id } });
+    if (!venta) {
+      throw new NotFoundException(`Venta con id ${id} no encontrada`);
+    }
 
-    const ventaUpdate = Object.assign(venta, updateVentaDto);
-    return this.ventasRepository.save(ventaUpdate);
+    // Actualizar los campos que vengan en el DTO
+    if (updateVentaDto.idCliente) {
+      venta.cliente = { id: updateVentaDto.idCliente } as Cliente;
+    }
+
+    // Guardar la venta con los cambios parciales
+    return this.ventasRepository.save(venta);
   }
 
-  async remove(id: number) {
-    const venta = await this.ventasRepository.findOneBy({ id });
-    if (!venta) throw new NotFoundException('La venta no existe');
-    return this.ventasRepository.softRemove(venta);
+  // Método para eliminar lógicamente una venta
+  async remove(id: number): Promise<void> {
+    const venta = await this.ventasRepository.findOne({ where: { id } });
+    if (!venta) {
+      throw new NotFoundException(`Venta con id ${id} no encontrada`);
+    }
+
+    // Marcar la venta como eliminada
+    venta.fechaEliminacion = new Date(); // Establecemos la fecha de eliminación
+
+    // Guardamos la venta con la fecha de eliminación
+    await this.ventasRepository.save(venta);
   }
 }
