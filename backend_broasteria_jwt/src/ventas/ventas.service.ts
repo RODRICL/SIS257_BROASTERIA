@@ -33,7 +33,7 @@ export class VentasService {
 
     // Calcular el monto total
     const montoTotal = detallesVenta.reduce(
-      (total, detalle) => total + venta.total,
+      (total, detalle) => total + detalle.subtotal,
       0,
     );
 

@@ -17,10 +17,10 @@ const authStore = useAuthStore()
         <RouterLink v-if="!authStore.token" to="/login">Iniciar Sesión</RouterLink>
         <span v-else>
           <RouterLink to="/">Home</RouterLink>
-          <RouterLink to="/about">About</RouterLink>
           <RouterLink to="/productos">Producto</RouterLink>
           <RouterLink to="/clientes">Cliente</RouterLink>
-          <RouterLink to="/ventas">Nueva Venta</RouterLink>
+          <RouterLink to="/productosVenta">Produtos Disponibles</RouterLink>
+          <RouterLink to="/carrito">Carrito de Compras</RouterLink>
           <a @click="authStore.logout()" class="text-danger">Salir</a>
         </span>
       </nav>

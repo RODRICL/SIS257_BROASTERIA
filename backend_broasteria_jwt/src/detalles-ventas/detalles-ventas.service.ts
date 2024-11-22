@@ -55,7 +55,7 @@ export class DetallesVentasService {
     detalleventa.venta = venta;
     detalleventa.producto = producto;
     detalleventa.cantidad = createDetallesVentaDto.cantidad;
-    venta.total =
+    detalleventa.subtotal =
       createDetallesVentaDto.cantidad * producto.precio;
 
     const savedDetalleventa =
@@ -67,7 +67,7 @@ export class DetallesVentasService {
 
     // Actualizamos el montoTotal de la venta
     venta.total = venta.detallesVentas.reduce(
-      (total, detalle) => total + venta.total,
+      (total, detalle) => total + detalle.subtotal,
       0,
     );
     await this.ventaRepository.save(venta);
@@ -120,10 +120,9 @@ export class DetallesVentasService {
     }
 
     if (updateDetallesVentaDto.cantidad) {
-      const venta = detalleventa.venta;
       const producto = detalleventa.producto;
       detalleventa.cantidad = updateDetallesVentaDto.cantidad;
-      venta.total =
+      detalleventa.subtotal =
         updateDetallesVentaDto.cantidad * producto.precio;
     }
 
@@ -133,7 +132,7 @@ export class DetallesVentasService {
     // Actualizar el montoTotal de la venta
     const venta = detalleventa.venta;
     venta.total = venta.detallesVentas.reduce(
-      (total, detalle) => total + venta.total,
+      (total, detalle) => total + detalle.subtotal,
       0,
     );
     await this.ventaRepository.save(venta);
@@ -159,7 +158,7 @@ export class DetallesVentasService {
     // Actualizar el montoTotal de la venta
     const venta = detalleventa.venta;
     venta.total = venta.detallesVentas.reduce(
-      (total, detalle) => total + venta.total,
+      (total, detalle) => total + detalle.subtotal,
       0,
     );
     await this.ventaRepository.save(venta);

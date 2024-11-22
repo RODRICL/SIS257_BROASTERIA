@@ -22,7 +22,7 @@ export class Venta {
   @Column('integer', { name: 'id_cliente' })
   idCliente: number;
 
-  @Column('date', { name: 'fecha_venta' })
+  @Column('date', { name: 'fecha_venta' , nullable: true })
   fechaVenta: Date;
 
   @Column('int')

@@ -34,6 +34,9 @@ export class DetallesVenta {
   @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
   fechaEliminacion: Date;
 
+  @Column('int')
+  subtotal: number;
+
   @ManyToOne(() => Producto, (producto) => producto.detallesVentas)
   @JoinColumn({ name: 'id_producto', referencedColumnName: 'id' })
   producto: Producto;
