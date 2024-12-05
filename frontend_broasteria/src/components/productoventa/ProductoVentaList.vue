@@ -24,7 +24,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <h1>Lista de Productos</h1>
+    <h1 style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Lista de Productos</h1>
     <table>
       <thead>
         <tr>
@@ -58,8 +58,7 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-th,
-td {
+th, td {
   padding: 8px;
   border: 1px solid #ddd;
 }

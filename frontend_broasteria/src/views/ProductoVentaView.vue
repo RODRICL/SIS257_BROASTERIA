@@ -38,7 +38,7 @@ function agregarAlCarrito(producto: Producto) {
 
 <template>
   <div>
-    <h1>Productos Disponibles</h1>
+    <h1 style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Productos Disponibles</h1>
 
     <!-- Mensaje cuando no hay productos disponibles -->
     <div v-if="productos.length === 0">No hay productos disponibles con stock.</div>
@@ -78,7 +78,7 @@ function agregarAlCarrito(producto: Producto) {
   </div>
 </template>
 
-<style scoped>
+<style>
 table {
   width: 100%;
   border-collapse: collapse;

@@ -9,6 +9,7 @@ import InputText from 'primevue/inputtext'
 import Select from 'primevue/select'
 
 import { computed, ref, watch } from 'vue'
+import { ColorPicker } from 'primevue'
 
 const ENDPOINT = 'productos'
 const props = defineProps({
@@ -79,71 +80,115 @@ watch(
     <Dialog
       v-model:visible="dialogVisible"
       :header="props.modoEdicion ? 'Editar' : 'Crear'"
-      style="width: 25rem"
+      style="width: 25rem; color: white;"
     >
-      <div class="flex items-center gap-4 mb-4">
-        <label for="categoria" class="font-semibold w-4">Categoria</label>
+      <div class="form-group">
+        <label for="categoria" class="form-label">Categoria</label>
         <Select
           id="categoria"
-          :options="categorias"
+          :options="categorias" :style="ColorPicker"
           v-model="producto.categoria"
           optionLabel="nombre"
           placeholder="Selecciona una categoria"
-          class="flex-auto"
+          class="form-input"
         ></Select>
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="nombre" class="font-semibold w-4">Nombre</label>
+      <div class="form-group">
+        <label for="nombre" class="form-label">Nombre</label>
         <InputText
           id="nombre"
           v-model="producto.nombre"
-          class="flex-auto"
+          class="form-input"
           autocomplete="off"
           autofocus
         />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="descripcion" class="font-semibold w-4">Descripción</label>
+      <div class="form-group">
+        <label for="descripcion" class="form-label">Descripción</label>
         <InputText
           id="descripcion"
           v-model="producto.descripcion"
-          class="flex-auto"
+          class="form-input"
           autocomplete="off"
           autofocus
         />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="cantidadDisponible" class="font-semibold w-24">Cantidad disponible</label>
+      <div class="form-group">
+        <label for="cantidadDisponible" class="form-label">Cantidad disponible</label>
         <InputText
           id="cantidadDisponible"
           type="number"
           v-model.number="producto.cantidadDisponible"
-          class="flex-auto"
+          class="form-input"
           autocomplete="off"
         />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="precio" class="font-semibold w-24">Precio</label>
+      <div class="form-group">
+        <label for="precio" class="form-label">Precio</label>
         <InputText
           id="precio"
           type="number"
           v-model.number="producto.precio"
-          class="flex-auto"
+          class="form-input"
           autocomplete="off"
         />
       </div>
       <div class="flex justify-end gap-2">
         <Button
+        style="color: white;"
           type="button"
           label="Cancelar"
           icon="pi pi-times"
           severity="secondary"
           @click="dialogVisible = false"
         ></Button>
-        <Button type="button" label="Guardar" icon="pi pi-save" @click="handleSave"></Button>
+        <Button type="button" label="Guardar" icon="pi pi-save" style="color: white;" @click="handleSave "></Button>
       </div>
     </Dialog>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  flex: 1; /* Las etiquetas ocupan el mismo ancho */
+  text-align: right; /* Alinea el texto a la derecha */
+  font-weight: bold;
+}
+
+.form-input {
+  flex: 2; /* Los campos de entrada ocupan el doble de ancho que las etiquetas */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.custom-input {
+  background-color: rgb(0, 0, 0) !important; /* Fondo amarillo para los campos */
+  border: 1px solid #ccc; /* Borde gris para los campos */
+  color: rgb(255, 252, 252);  /* Color del texto en los inputs */
+  padding: 0.5rem;
+}
+
+.custom-input:focus {
+  border-color: #0a3058;  /* Color de borde azul cuando el campo está en foco */
+  outline: none;  /* Quitar el borde de enfoque predeterminado */
+}
+</style>

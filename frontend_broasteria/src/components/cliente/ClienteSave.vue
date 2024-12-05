@@ -132,4 +132,17 @@ async function handleSave() {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Estilo para los inputs (campos de formulario) */
+.custom-input {
+  background-color: rgb(0, 0, 0) !important; /* Fondo amarillo para los campos */
+  border: 1px solid #ccc; /* Borde gris para los campos */
+  color: rgb(255, 252, 252);  /* Color del texto en los inputs */
+  padding: 0.5rem;
+}
+
+.custom-input:focus {
+  border-color: #b3ff00;  /* Color de borde azul cuando el campo está en foco */
+  outline: none;  /* Quitar el borde de enfoque predeterminado */
+}
+</style>

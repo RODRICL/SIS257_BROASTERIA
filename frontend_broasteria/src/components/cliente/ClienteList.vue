@@ -37,8 +37,15 @@ defineExpose({ obtenerLista })
 </script>
 
 <template>
-  <div>
-    <table>
+  <div class="container">
+    <!-- Botón de Crear Nuevo Cliente -->
+    <Button
+      label="Crear Nuevo Cliente"
+      icon="pi pi-plus"
+      class="crear-boton"
+      @click="emit('edit')" 
+    />
+    <table class="table-cliente">
       <thead>
         <tr>
           <th>Nro.</th>
@@ -48,6 +55,7 @@ defineExpose({ obtenerLista })
           <th>Apellido Materno</th>
           <th>telefono</th>
           <th>direccion</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -91,4 +99,63 @@ defineExpose({ obtenerLista })
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+/* Contenedor principal */
+.container {
+  max-width: 1200px; /* Limitar el ancho */
+  margin: 0 auto; /* Centrar el contenido */
+  padding: 20px; /* Espaciado interno para evitar que los elementos toquen los bordes */
+}
+
+/* Estilo para la tabla */
+.table-cliente {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: #f9f9f909;
+}
+
+.table-cliente th,
+.table-cliente td {
+  padding: 12px 15px;
+  text-align: left;
+  border: 1px solid #ffffff;
+}
+
+.table-cliente th {
+  background-color: #007bff;
+  color: rgb(0, 0, 0);
+}
+
+.table-cliente tr:nth-child(even) {
+  background-color: #f2f2f21a;
+}
+
+.table-cliente tr:hover {
+  background-color: #f1f1f1;
+  color: black;
+}
+
+/* Estilo para el botón de crear nuevo */
+.crear-boton {
+  margin-bottom: 20px;
+  background-color: #007bff; /* Color verde */
+  color: rgb(3, 3, 3);
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.crear-boton:hover {
+  background-color: #0a3058; /* Color verde oscuro al pasar el ratón */
+  color: black;
+}
+
+/* Estilos para el diálogo de confirmación */
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+</style>

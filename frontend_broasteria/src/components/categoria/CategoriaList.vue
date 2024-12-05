@@ -1,31 +1,31 @@
 <script setup lang="ts">
-import type { Producto } from '@/models/producto'
+import type { Categoria } from '@/models/categoria'
 import http from '@/plugins/axios'
 import Button from 'primevue/button'
 import Dialog from 'primevue/dialog'
 import { onMounted, ref } from 'vue'
 
-const ENDPOINT = 'productos'
-const productos = ref<Producto[]>([])
+const ENDPOINT = 'categorias'
+const categorias = ref<Categoria[]>([])
 const emit = defineEmits(['edit'])
-const productoDelete = ref<Producto | null>(null)
+const categoriaDelete = ref<Categoria | null>(null)
 const mostrarConfirmDialog = ref<boolean>(false)
 
 async function obtenerLista() {
-  productos.value = await http.get(ENDPOINT).then((response) => response.data)
+  categorias.value = await http.get(ENDPOINT).then((response) => response.data)
 }
 
-function emitirEdicion(producto: Producto) {
-  emit('edit', producto)
+function emitirEdicion(categoria: Categoria) {
+  emit('edit', categoria)
 }
 
-function mostrarEliminarConfirm(producto: Producto) {
-  productoDelete.value = producto
+function mostrarEliminarConfirm(categoria: Categoria) {
+  categoriaDelete.value = categoria
   mostrarConfirmDialog.value = true
 }
 
 async function eliminar() {
-  await http.delete(`${ENDPOINT}/${productoDelete.value?.id}`)
+  await http.delete(`${ENDPOINT}/${categoriaDelete.value?.id}`)
   obtenerLista()
   mostrarConfirmDialog.value = false
 }
@@ -38,50 +38,40 @@ defineExpose({ obtenerLista })
 
 <template>
   <div class="container">
-    <!-- Botón de Crear Nuevo Producto -->
+    <!-- Botón de Crear Nueva Categoria -->
     <Button
-      label="Crear Nuevo Producto"
+      label="Crear Nueva Categoria"
       icon="pi pi-plus"
       class="crear-boton"
       @click="emit('edit')" 
     />
-
-    <!-- Tabla de productos -->
-    <table class="tabla-productos">
+    <table class="table-categoria">
       <thead>
         <tr>
           <th>Nro.</th>
-          <th>Categoria</th>
           <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Cantidad disponible</th>
-          <th>Precio</th>
+          <th>Descripción</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(producto, index) in productos" :key="producto.id">
+        <tr v-for="(categoria, index) in categorias" :key="categoria.id">
           <td>{{ index + 1 }}</td>
-          <td>{{ producto.categoria.nombre }}</td>
-          <td>{{ producto.nombre }}</td>
-          <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.cantidadDisponible }}</td>
-          <td>{{ producto.precio }}</td>
+          <td>{{ categoria.nombre }}</td>
+          <td>{{ categoria.descripcion }}</td>
           <td>
-            <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(producto)" style="color: white;" />
+            <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(categoria)" />
             <Button
-            style="color: white;"
               icon="pi pi-trash"
               aria-label="Eliminar"
               text
-              @click="mostrarEliminarConfirm(producto)"
+              @click="mostrarEliminarConfirm(categoria)"
             />
           </td>
         </tr>
       </tbody>
     </table>
 
-    <!-- Diálogo de Confirmación de Eliminación -->
     <Dialog
       v-model:visible="mostrarConfirmDialog"
       header="Confirmar Eliminación"
@@ -95,7 +85,7 @@ defineExpose({ obtenerLista })
           severity="secondary"
           @click="mostrarConfirmDialog = false"
         />
-        <Button type="button" label="Eliminar" @click="eliminar" style="color: white;"/>
+        <Button type="button" label="Eliminar" @click="eliminar" />
       </div>
     </Dialog>
   </div>
@@ -110,30 +100,30 @@ defineExpose({ obtenerLista })
 }
 
 /* Estilo para la tabla */
-.tabla-productos {
+.table-categoria {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
   background-color: #f9f9f909;
 }
 
-.tabla-productos th,
-.tabla-productos td {
+.table-categoria th,
+.table-categoria td {
   padding: 12px 15px;
   text-align: left;
   border: 1px solid #ffffff;
 }
 
-.tabla-productos th {
+.table-categoria th {
   background-color: #d8ec48;
   color: rgb(0, 0, 0);
 }
 
-.tabla-productos tr:nth-child(even) {
+.table-categoria tr:nth-child(even) {
   background-color: #f2f2f21a;
 }
 
-.tabla-productos tr:hover {
+.table-categoria tr:hover {
   background-color: #f1f1f1;
   color: black;
 }
@@ -150,7 +140,7 @@ defineExpose({ obtenerLista })
 }
 
 .crear-boton:hover {
-  background-color: #d4ac44; /* Color verde oscuro al pasar el ratón */
+  background-color: #d4ac44;/* Color verde oscuro al pasar el ratón */
   color: black;
 }
 
