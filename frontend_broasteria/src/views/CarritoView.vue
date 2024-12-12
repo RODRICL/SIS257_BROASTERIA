@@ -25,11 +25,8 @@ export default {
     const clienteSeleccionado = ref({
       id: null,
       ci: '',
-      nombre: '',
-      apellidoPaterno: '',
-      apellidoMaterno: '',
-      telefono: '',
-      direccion: ''
+      nombreCompleto: '',
+      celular: ''
     });
 
     // Lista de clientes para mostrar en el select
@@ -38,7 +35,7 @@ export default {
 
     // Para mostrar la imagen
     const mostrarImagen = ref(false);  // Estado para controlar la visibilidad de la imagen
-    // const mostrarImagenInicial = ref(false);
+    const mostrarImagenInicial = ref(false);
     // Cargar clientes del backend
     const obtenerClientes = async () => {
       try {
@@ -67,7 +64,7 @@ export default {
     // Función para calcular el total del carrito
     const totalCarrito = computed(() => {
       return cartStore.productos.reduce((total, producto) => {
-        return total + producto.precio * producto.cantidad;
+        return total + producto.precioVenta * producto.cantidad;
       }, 0);
     });
     // Función para eliminar un producto del carrito
@@ -81,10 +78,10 @@ export default {
     }
 
     // Función para aumentar la cantidad de un producto
-    function aumentarCantidad(productoId: number, cantidadDisponible: number) {
+    function aumentarCantidad(productoId: number, stock: number) {
       const producto = cartStore.productos.find(p => p.id === productoId);
       if (producto) {
-        if (producto.cantidad >= cantidadDisponible) {
+        if (producto.cantidad >= stock) {
           mensaje.value = '!Máximo de unidades disponibles';
           mostrarMensaje.value = true;
         } else {
@@ -100,7 +97,7 @@ export default {
         producto.cantidad--;
       }
     }
-    //Funcion registrar venta dfunciona
+    //Duncion registrar venta dfunciona
     function registrarVenta() {
       if (!clienteSeleccionado.value.id) {
         mensaje.value = 'Debe seleccionar un cliente para completar la venta.';
@@ -116,7 +113,7 @@ export default {
 
       const authStore = useAuthStore();
       const token = authStore.token;
-      const userId = authStore.user;
+      const userId = 1;
 
       if (!userId) {
         console.error('El ID del usuario no está disponible.');
@@ -132,8 +129,9 @@ export default {
       const montoTotal = totalCarrito.value;  // totalCarrito es la propiedad computada que ya calcula el monto
 
       const ventaData = {
+        idUsuario: userId,
         idCliente: clienteSeleccionado.value.id,
-        total: montoTotal,  // Usamos el montoTotal calculado
+        montoTotal: montoTotal,  // Usamos el montoTotal calculado
       };
 
       const config = {
@@ -151,12 +149,12 @@ export default {
           // Crear los detalles de la venta
           const detalleVentaData = cartStore.productos.map(producto => {
             const cantidad = typeof producto.cantidad === 'number' ? producto.cantidad : parseInt(producto.cantidad, 10);
-            const precio = typeof producto.precio === 'number' ? producto.precio : parseFloat(producto.precio);
-            const subtotal = cantidad * precio;
+            const precioVenta = typeof producto.precioVenta === 'number' ? producto.precioVenta : parseFloat(producto.precioVenta);
+            const subtotal = cantidad * precioVenta;
 
             return {
               idProducto: producto.id,
-              precio: precio,
+              precioVenta: precioVenta,
               cantidad: cantidad,
               subtotal: subtotal,
               idVenta: idVenta,  // Usamos el idVenta que nos devuelve la creación de la venta
@@ -164,14 +162,14 @@ export default {
           });
 
           // Verificar que los datos del carrito sean válidos
-          if (detalleVentaData.some(detalle => !detalle.idProducto || detalle.cantidad <= 0 || detalle.precio <= 0)) {
+          if (detalleVentaData.some(detalle => !detalle.idProducto || detalle.cantidad <= 0 || detalle.precioVenta <= 0)) {
             console.error('Datos inválidos en detalleVentaData', detalleVentaData);
             alert('Los datos de los productos en el carrito no son válidos.');
             return;
           }
 
           // Registrar los detalles de la venta en el backend
-          return http.post('/detalles-ventas', detalleVentaData, config);
+          return http.post('/detalleventa', detalleVentaData, config);
         })
         .then(() => {
           cartStore.vaciarCarrito();
@@ -233,6 +231,7 @@ export default {
     function cerrarMensaje() {
       mostrarMensaje.value = false;  // Cierra el modal
     }
+
 
     return {
       cartStore,
@@ -306,12 +305,11 @@ export default {
                 <button @click="disminuirCantidad(producto.id)" :disabled="producto.cantidad === 1"
                   class="cantidad-btn restar">-</button>
                 <span>{{ producto.cantidad }}</span>
-                <button @click="aumentarCantidad(producto.id, producto.cantidadDisponible)"
-                  class="cantidad-btn">+</button>
+                <button @click="aumentarCantidad(producto.id, producto.stock)" class="cantidad-btn">+</button>
               </div>
             </td>
-            <td>Bs {{ formatCurrency(producto.precio) }}</td>
-            <td>{{ formatCurrency(producto.precio * producto.cantidad) }}</td>
+            <td>Bs {{ formatCurrency(producto.precioVenta) }}</td>
+            <td>{{ formatCurrency(producto.precioVenta * producto.cantidad) }}</td>
             <td>
               <button @click="eliminarProducto(producto.id)" class="eliminar-btn">Eliminar</button>
             </td>
@@ -374,27 +372,15 @@ export default {
           <!-- Nombres, Apellido Paterno y Apellido Materno en la misma fila -->
           <div class="form-group row">
             <div class="col">
-              <label for="nombre">Nombre:</label>
-              <InputText id="nombre" v-model="clienteSeleccionado.nombre" disabled />
-            </div>
-            <div class="col">
-              <label for="apellidoPaterno">Apellido Paterno:</label>
-              <InputText id="apellidoPaterno" v-model="clienteSeleccionado.apellidoPaterno" disabled />
-            </div>
-            <div class="col">
-              <label for="apellidoMaterno">Apellido Materno:</label>
-              <InputText id="apellidoMaterno" v-model="clienteSeleccionado.apellidoMaterno" disabled />
+              <label for="nombreCompleto">Nombre Completo:</label>
+              <InputText id="nombreCompleto" v-model="clienteSeleccionado.nombreCompleto" disabled />
             </div>
           </div>
 
           <div class="form-group row">
             <div class="col">
-              <label for="telefono">Teléfono:</label>
-              <InputText id="telefono" v-model="clienteSeleccionado.telefono" disabled />
-            </div>
-            <div class="col">
-              <label for="direccion">Dirección:</label>
-              <InputText id="direccion" v-model="clienteSeleccionado.direccion" disabled />
+              <label for="celular">Celular:</label>
+              <InputText id="celular" v-model="clienteSeleccionado.celular" disabled />
             </div>
           </div>
         </div>

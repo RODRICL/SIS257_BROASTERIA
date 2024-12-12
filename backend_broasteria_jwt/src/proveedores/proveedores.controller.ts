@@ -14,16 +14,16 @@ import { UpdateProveedorDto } from './dto/update-proveedor.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('Proveedores')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@ApiTags('proveedores') // Swagger
+@ApiBearerAuth() //lo de documentacion para logiar
+@UseGuards(JwtAuthGuard) //lo de documentacion para logiar
 @Controller('proveedores')
 export class ProveedoresController {
   constructor(private readonly proveedoresService: ProveedoresService) {}
 
   @Post()
-  create(@Body() createProveedoreDto: CreateProveedorDto) {
-    return this.proveedoresService.create(createProveedoreDto);
+  create(@Body() createProveedorDto: CreateProveedorDto) {
+    return this.proveedoresService.create(createProveedorDto);
   }
 
   @Get()
@@ -39,9 +39,9 @@ export class ProveedoresController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateProveedoreDto: UpdateProveedorDto,
+    @Body() updateProveedorDto: UpdateProveedorDto,
   ) {
-    return this.proveedoresService.update(+id, updateProveedoreDto);
+    return this.proveedoresService.update(+id, updateProveedorDto);
   }
 
   @Delete(':id')

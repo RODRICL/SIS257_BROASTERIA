@@ -10,7 +10,7 @@ import { Categoria } from './entities/categoria.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
-export class CategoriasService {
+export class CategoriaService {
   constructor(
     @InjectRepository(Categoria)
     private categoriasRepository: Repository<Categoria>,
@@ -19,14 +19,12 @@ export class CategoriasService {
   async create(createCategoriaDto: CreateCategoriaDto): Promise<Categoria> {
     const existe = await this.categoriasRepository.findOneBy({
       nombre: createCategoriaDto.nombre.trim(),
-      descripcion: createCategoriaDto.descripcion.trim(),
     });
 
     if (existe) throw new ConflictException('La categoria ya existe');
 
     const categoria = new Categoria();
     categoria.nombre = createCategoriaDto.nombre.trim();
-    categoria.descripcion = createCategoriaDto.descripcion.trim();
     return this.categoriasRepository.save(categoria);
   }
 
@@ -36,7 +34,7 @@ export class CategoriasService {
 
   async findOne(id: number): Promise<Categoria> {
     const categoria = await this.categoriasRepository.findOneBy({ id });
-    if (!categoria) throw new NotFoundException('La categoria no existe');
+    if (!categoria) throw new NotFoundException('La categoría no existe');
     return categoria;
   }
 

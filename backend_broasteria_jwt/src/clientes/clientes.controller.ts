@@ -14,9 +14,9 @@ import { UpdateClienteDto } from './dto/update-cliente.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('Clientes')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@ApiTags('clientes') // Swagger
+@ApiBearerAuth() //lo de documentacion para logiar
+@UseGuards(JwtAuthGuard) //lo de documentacion para logiar
 @Controller('clientes')
 export class ClientesController {
   constructor(private readonly clientesService: ClientesService) {}

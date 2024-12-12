@@ -5,36 +5,32 @@ import {
 } from '@nestjs/common';
 import { CreateClienteDto } from './dto/create-cliente.dto';
 import { UpdateClienteDto } from './dto/update-cliente.dto';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Cliente } from './entities/cliente.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientesService {
   constructor(
-    @InjectRepository(Cliente) private clientesRepository: Repository<Cliente>,
+    @InjectRepository(Cliente)
+    private clientesRepository: Repository<Cliente>,
   ) {}
-
   async create(createClienteDto: CreateClienteDto): Promise<Cliente> {
     const existe = await this.clientesRepository.findOneBy({
       ci: createClienteDto.ci.trim(),
+      nombreCompleto: createClienteDto.nombreCompleto.trim(),
     });
-
-    if (existe) throw new ConflictException('Ya existe el cliente');
+    if (existe) throw new ConflictException('El cliente ya existe');
 
     const cliente = new Cliente();
-    cliente.nombre = createClienteDto.nombre.trim();
-    cliente.apellidoPaterno = createClienteDto.apellidoPaterno.trim();
-    cliente.apellidoMaterno = createClienteDto.apellidoMaterno.trim();
-    cliente.telefono = createClienteDto.telefono.trim();
-    cliente.direccion = createClienteDto.direccion.trim();
     cliente.ci = createClienteDto.ci.trim();
-
+    cliente.nombreCompleto = createClienteDto.nombreCompleto.trim();
+    cliente.celular = createClienteDto.celular.trim();
     return this.clientesRepository.save(cliente);
   }
 
   async findAll(): Promise<Cliente[]> {
-    return await this.clientesRepository.find();
+    return this.clientesRepository.find();
   }
 
   async findOne(id: number): Promise<Cliente> {
@@ -48,8 +44,8 @@ export class ClientesService {
     updateClienteDto: UpdateClienteDto,
   ): Promise<Cliente> {
     const cliente = await this.findOne(id);
-    const actualizaCliente = Object.assign(cliente, updateClienteDto);
-    return this, this.clientesRepository.save(actualizaCliente);
+    const clienteUpdate = Object.assign(cliente, updateClienteDto);
+    return this.clientesRepository.save(clienteUpdate);
   }
 
   async remove(id: number) {

@@ -9,9 +9,9 @@ export interface Producto {
 
   descripcion: string
 
-  cantidadDisponible: number
+  precioVenta: number
 
-  precio: number
+  stock: number
 
   categoria: Categoria
 }

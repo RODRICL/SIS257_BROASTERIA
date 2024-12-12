@@ -1,47 +1,44 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDefined,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsNotEmpty, IsString, MaxLength } from 'class-validator';
 
 export class CreateProveedorDto {
-  @ApiProperty()
-  @IsDefined({ message: 'El campo idProducto debe estar definido' })
-  @IsNumber({}, { message: 'El campo idProducto debe ser tipo numérico' })
-  readonly idProducto: number;
-
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El campo nombres no debe ser vacío' })
-  @IsString({ message: 'El campo nombres debe ser de tipo cadena' })
-  @MaxLength(30, {
-    message: 'El campo nombres no debe ser mayor a 50 caracteres',
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo nit es obligatorio' })
+  @IsString({ message: 'El campo nit debe ser tipo cadena' })
+  @MaxLength(10, {
+    message: 'El campo nit no debe ser mayor a 10 caracteres',
   })
-  readonly nombre: string;
+  readonly nit: string;
 
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El campo apellidoPaterno no debe ser vacío' })
-  @IsString({ message: 'El campo apellidoPaterno debe ser de tipo cadena' })
-  @MaxLength(30, {
-    message: 'El campo apellidoPaterno no debe ser mayor a 50 caracteres',
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo razonSocial es obligatorio' })
+  @IsString({ message: 'El campo razonSocial debe ser tipo cadena' })
+  @MaxLength(150, {
+    message: 'El campo razonSocial no debe ser mayor a 150 caracteres',
   })
-  readonly apellidoPaterno: string;
+  readonly razonSocial: string;
 
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El campo telefono no debe ser vacío' })
-  @IsString({ message: 'El campo telefono debe ser de tipo cadena' })
-  @MaxLength(8, {
-    message: 'El campo telefono no debe ser mayor a 8 caracteres',
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo direccion es obligatorio' })
+  @IsString({ message: 'El campo direccion debe ser tipo cadena' })
+  @MaxLength(200, {
+    message: 'El campo direccion no debe ser mayor a 200 caracteres',
+  })
+  readonly direccion: string;
+
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo telefono es obligatorio' })
+  @IsString({ message: 'El campo telefono debe ser tipo cadena' })
+  @MaxLength(10, {
+    message: 'El campo telefono no debe ser mayor a 10 caracteres',
   })
   readonly telefono: string;
 
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El campo direccion no debe ser vacío' })
-  @IsString({ message: 'El campo direccion debe ser de tipo cadena' })
-  @MaxLength(250, {
-    message: 'El campo direccion no debe ser mayor a 30 caracteres',
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo email es obligatorio' })
+  @IsString({ message: 'El campo email debe ser tipo cadena' })
+  @MaxLength(30, {
+    message: 'El campo email no debe ser mayor a 30 caracteres',
   })
-  readonly direccion: string;
+  readonly email: string;
 }

@@ -8,32 +8,32 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { CategoriasService } from './categorias.service';
+import { CategoriaService } from './categoria.service';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('Categorias')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
-@Controller('categorias')
-export class CategoriasController {
-  constructor(private readonly categoriasService: CategoriasService) {}
+@ApiTags('categoria') //Swagger
+@ApiBearerAuth() //lo de documentacion para logiar
+@UseGuards(JwtAuthGuard) //lo de documentacion para logiar
+@Controller('categoria')
+export class CategoriaController {
+  constructor(private readonly categoriaService: CategoriaService) {}
 
   @Post()
   create(@Body() createCategoriaDto: CreateCategoriaDto) {
-    return this.categoriasService.create(createCategoriaDto);
+    return this.categoriaService.create(createCategoriaDto);
   }
 
   @Get()
   findAll() {
-    return this.categoriasService.findAll();
+    return this.categoriaService.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.categoriasService.findOne(+id);
+    return this.categoriaService.findOne(+id);
   }
 
   @Patch(':id')
@@ -41,11 +41,11 @@ export class CategoriasController {
     @Param('id') id: string,
     @Body() updateCategoriaDto: UpdateCategoriaDto,
   ) {
-    return this.categoriasService.update(+id, updateCategoriaDto);
+    return this.categoriaService.update(+id, updateCategoriaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.categoriasService.remove(+id);
+    return this.categoriaService.remove(+id);
   }
 }

@@ -8,12 +8,7 @@ import {
 } from 'class-validator';
 
 export class CreateProductoDto {
-  @ApiProperty()
-  @IsDefined({ message: 'El campo idCategoria debe estar definido' })
-  @IsNumber({}, { message: 'El campo idCategoria debe ser tipo numérico' })
-  readonly idCategoria: number;
-
-  @ApiProperty()
+  @ApiProperty() //Swagger
   @IsNotEmpty({ message: 'El campo nombre es obligatorio' })
   @IsString({ message: 'El campo nombre debe ser de tipo cadena' })
   @MaxLength(30, {
@@ -21,21 +16,26 @@ export class CreateProductoDto {
   })
   readonly nombre: string;
 
-  @ApiProperty()
-  @IsNotEmpty({ message: 'El descripcion es obligatorio' })
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo descripcion es obligatorio' })
   @IsString({ message: 'El campo descripcion debe ser de tipo cadena' })
-  @MaxLength(250, {
-    message: 'El campo descripcion no debe ser mayor a 250 caracteres',
+  @MaxLength(50, {
+    message: 'El campo descripcion no debe ser mayor a 50 caracteres',
   })
   readonly descripcion: string;
 
-  @ApiProperty()
-  @IsDefined({ message: 'El campo cantidadDisponible debe estar definido' })
-  @IsNumber({}, { message: 'El campo cantidadDisponible debe ser tipo numérico' })
-  readonly cantidadDisponible: number;
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo precioVenta es obligatorio' })
+  @IsNumber({}, { message: 'El campo precioVenta debe ser de tipo numero' })
+  readonly precioVenta: number;
 
-  @ApiProperty()
-  @IsDefined({ message: 'El campo precio debe estar definido' })
-  @IsNumber({}, { message: 'El campo precio debe ser tipo numérico' })
-  readonly precio: number;
+  @ApiProperty() //Swagger
+  @IsNotEmpty({ message: 'El campo stock es obligatorio' })
+  @IsNumber({}, { message: 'El campo stock debe ser de tipo numero' })
+  readonly stock: number;
+
+  @ApiProperty() //Swagger
+  @IsDefined({ message: 'El campo idCategoria debe estar definido' })
+  @IsNumber({}, { message: 'El campo idCategoria debe ser de tipo numérico' })
+  readonly idCategoria: number;
 }

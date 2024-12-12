@@ -39,22 +39,14 @@ defineExpose({ obtenerLista })
 <template>
   <div class="container">
     <!-- Botón de Crear Nuevo Cliente -->
-    <Button
-      label="Crear Nuevo Cliente"
-      icon="pi pi-plus"
-      class="crear-boton"
-      @click="emit('edit')" 
-    />
+    <Button label="Crear Nuevo Cliente" icon="pi pi-plus" class="crear-boton" @click="emit('edit')" />
     <table class="table-cliente">
       <thead>
         <tr>
           <th>Nro.</th>
           <th>CI</th>
-          <th>Nombre</th>
-          <th>Apellido Paterno</th>
-          <th>Apellido Materno</th>
+          <th>Nombre Completo</th>
           <th>telefono</th>
-          <th>direccion</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -62,37 +54,20 @@ defineExpose({ obtenerLista })
         <tr v-for="(cliente, index) in clientes" :key="cliente.id">
           <td>{{ index + 1 }}</td>
           <td>{{ cliente.ci }}</td>
-          <td>{{ cliente.nombre }}</td>
-          <td>{{ cliente.apellidoPaterno }}</td>
-          <td>{{ cliente.apellidoMaterno }}</td>
-          <td>{{ cliente.telefono }}</td>
-          <td>{{ cliente.direccion }}</td>
+          <td>{{ cliente.nombreCompleto }}</td>
+          <td>{{ cliente.celular }}</td>
           <td>
             <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(cliente)" />
-            <Button
-              icon="pi pi-trash"
-              aria-label="Eliminar"
-              text
-              @click="mostrarEliminarConfirm(cliente)"
-            />
+            <Button icon="pi pi-trash" aria-label="Eliminar" text @click="mostrarEliminarConfirm(cliente)" />
           </td>
         </tr>
       </tbody>
     </table>
 
-    <Dialog
-      v-model:visible="mostrarConfirmDialog"
-      header="Confirmar Eliminación"
-      :style="{ width: '25rem' }"
-    >
+    <Dialog v-model:visible="mostrarConfirmDialog" header="Confirmar Eliminación" :style="{ width: '25rem' }">
       <p>¿Estás seguro de que deseas eliminar este registro?</p>
       <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          severity="secondary"
-          @click="mostrarConfirmDialog = false"
-        />
+        <Button type="button" label="Cancelar" severity="secondary" @click="mostrarConfirmDialog = false" />
         <Button type="button" label="Eliminar" @click="eliminar" />
       </div>
     </Dialog>
@@ -102,9 +77,12 @@ defineExpose({ obtenerLista })
 <style scoped>
 /* Contenedor principal */
 .container {
-  max-width: 1200px; /* Limitar el ancho */
-  margin: 0 auto; /* Centrar el contenido */
-  padding: 20px; /* Espaciado interno para evitar que los elementos toquen los bordes */
+  max-width: 1200px;
+  /* Limitar el ancho */
+  margin: 0 auto;
+  /* Centrar el contenido */
+  padding: 20px;
+  /* Espaciado interno para evitar que los elementos toquen los bordes */
 }
 
 /* Estilo para la tabla */
@@ -139,7 +117,8 @@ defineExpose({ obtenerLista })
 /* Estilo para el botón de crear nuevo */
 .crear-boton {
   margin-bottom: 20px;
-  background-color: #007bff; /* Color verde */
+  background-color: #007bff;
+  /* Color verde */
   color: rgb(3, 3, 3);
   border: none;
   padding: 10px 20px;
@@ -148,7 +127,8 @@ defineExpose({ obtenerLista })
 }
 
 .crear-boton:hover {
-  background-color: #0a3058; /* Color verde oscuro al pasar el ratón */
+  background-color: #0a3058;
+  /* Color verde oscuro al pasar el ratón */
   color: black;
 }
 

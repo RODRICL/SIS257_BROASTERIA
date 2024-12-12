@@ -27,7 +27,3 @@ Proveedores( id, id_producto, nombre(30), apellido_paterno(30), telefono(8), dir
 Empleados(id, nombre(30), apellido_paterno(30), apellido_materno(30), cargo(40), telefono(8), salario) 
 
 Usuario(id, id_empleado, nombre_usuario(30), clave(250))
-
-Pagos( id, id_venta, monto(5,2), fecha_pago, metodo_pago) 
-
-Promociones( id, nombre(30), descripcion(250), fecha_inicio, fecha_fin, id_producto) 

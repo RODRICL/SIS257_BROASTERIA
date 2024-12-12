@@ -7,7 +7,7 @@ import Dialog from 'primevue/dialog'
 import InputText from 'primevue/inputtext'
 import { computed, ref, watch } from 'vue'
 
-const ENDPOINT = 'categorias'
+const ENDPOINT = 'categoria'
 const props = defineProps({
   mostrar: Boolean,
   categoria: {
@@ -37,7 +37,6 @@ async function handleSave() {
   try {
     const body = {
       nombre: categoria.value.nombre,
-      descripcion: categoria.value.descripcion,
     }
     if (props.modoEdicion) {
       await http.patch(`${ENDPOINT}/${categoria.value.id}`, body)
@@ -55,39 +54,14 @@ async function handleSave() {
 
 <template>
   <div class="card flex justify-center">
-    <Dialog
-      v-model:visible="dialogVisible"
-      :header="props.modoEdicion ? 'Editar' : 'Crear'"
-      style="width: 25rem"
-    >
-    <div class="form-group">
-  <label for="nombre" class="form-label">Nombre</label>
-  <InputText
-    id="nombre"
-    v-model="categoria.nombre"
-    class="form-input"
-    autocomplete="off"
-    autofocus
-  />
-</div>
-<div class="form-group">
-  <label for="descripcion" class="form-label">Descripción</label>
-  <InputText
-    id="descripcion"
-    v-model="categoria.descripcion"
-    class="form-input"
-    autocomplete="off"
-  />
-</div>
- 
+    <Dialog v-model:visible="dialogVisible" :header="props.modoEdicion ? 'Editar' : 'Crear'" style="width: 25rem">
+      <div class="form-group">
+        <label for="nombre" class="form-label">Nombre</label>
+        <InputText id="nombre" v-model="categoria.nombre" class="form-input" autocomplete="off" autofocus />
+      </div>
       <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          icon="pi pi-times"
-          severity="secondary"
-          @click="dialogVisible = false"
-        ></Button>
+        <Button type="button" label="Cancelar" icon="pi pi-times" severity="secondary"
+          @click="dialogVisible = false"></Button>
         <Button type="button" label="Guardar" icon="pi pi-save" @click="handleSave"></Button>
       </div>
     </Dialog>
@@ -103,13 +77,16 @@ async function handleSave() {
 }
 
 .form-label {
-  flex: 1; /* Las etiquetas ocupan el mismo ancho */
-  text-align: right; /* Alinea el texto a la derecha */
+  flex: 1;
+  /* Las etiquetas ocupan el mismo ancho */
+  text-align: right;
+  /* Alinea el texto a la derecha */
   font-weight: bold;
 }
 
 .form-input {
-  flex: 2; /* Los campos de entrada ocupan el doble de ancho que las etiquetas */
+  flex: 2;
+  /* Los campos de entrada ocupan el doble de ancho que las etiquetas */
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -129,14 +106,19 @@ async function handleSave() {
 
 /* Estilo para los inputs (campos de formulario) */
 .custom-input {
-  background-color: rgb(0, 0, 0) !important; /* Fondo amarillo para los campos */
-  border: 1px solid #ccc; /* Borde gris para los campos */
-  color: rgb(255, 252, 252);  /* Color del texto en los inputs */
+  background-color: rgb(0, 0, 0) !important;
+  /* Fondo amarillo para los campos */
+  border: 1px solid #ccc;
+  /* Borde gris para los campos */
+  color: rgb(255, 252, 252);
+  /* Color del texto en los inputs */
   padding: 0.5rem;
 }
 
 .custom-input:focus {
-  border-color: #b3ff00;  /* Color de borde azul cuando el campo está en foco */
-  outline: none;  /* Quitar el borde de enfoque predeterminado */
+  border-color: #b3ff00;
+  /* Color de borde azul cuando el campo está en foco */
+  outline: none;
+  /* Quitar el borde de enfoque predeterminado */
 }
 </style>

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+//import { useAuthStore } from '@/stores/index'
 import http from '@/plugins/axios'
 import router from '@/router'
 import type { ProductoCarrito } from '@/models/productoCarrito'
@@ -18,6 +19,7 @@ export const useCartStore = defineStore('cart', {
       } else {
         this.productos.push({ ...producto, cantidad: 1 })
       }
+      console.log('Productos en el carrito:', this.productos)
     },
 
     // Acción para eliminar un producto del carrito
@@ -35,8 +37,19 @@ export const useCartStore = defineStore('cart', {
       this.idCliente = idCliente // Guardamos el idCliente en el estado
     },
 
+    // Acción para calcular el monto total del carrito
+    calcularMontoTotal(): number {
+      return this.productos.reduce((total, producto) => {
+        const precioVenta = parseFloat(producto.precioVenta.toString())
+        const cantidad = parseInt(producto.cantidad.toString(), 10)
+        return total + precioVenta * cantidad
+      }, 0)
+    },
+
     // Acción para realizar la venta
-    async realizarVenta(idCliente: number) {
+    async realizarVenta() {
+      //const authStore = useAuthStore()
+
       // Si no hay productos en el carrito, no proceder
       if (this.productos.length === 0) {
         console.error('El carrito está vacío')
@@ -50,17 +63,16 @@ export const useCartStore = defineStore('cart', {
 
       try {
         // Obtener el monto total sumando los subtotales de cada producto
-        const total = this.productos.reduce((total, producto) => {
-          return total + producto.precio * producto.cantidad
-        }, 0)
+        const montoTotal = this.calcularMontoTotal()
 
         // Crear el objeto de venta
         const ventaData = {
+          idUsuario: 1, // Obtener idUsuario desde el store de auth
           idCliente: this.idCliente, // Usamos el idCliente desde el estado
-          total,
+          montoTotal: parseFloat(montoTotal.toString()), // Asegurarse de que sea un número
           productos: this.productos.map((producto) => ({
             idProducto: producto.id,
-            cantidad: producto.cantidad,
+            cantidad: parseInt(producto.cantidad.toString(), 10), // Asegurarse de que sea un número
           })),
         }
 

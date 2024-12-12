@@ -13,8 +13,8 @@ export class AuthService {
   ) {}
 
   async login(authLoginDto: AuthLoginDto): Promise<any> {
-    const { nombreUsuario, clave } = authLoginDto;
-    const usuarioOk = await this.usuarioService.validate(nombreUsuario, clave);
+    const { usuario, clave } = authLoginDto;
+    const usuarioOk = await this.usuarioService.validate(usuario, clave);
 
     const payload = { sub: usuarioOk.id };
     const access_token = await this.getAccessToken(payload);

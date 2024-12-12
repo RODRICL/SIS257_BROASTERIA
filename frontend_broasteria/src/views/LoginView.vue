@@ -2,13 +2,13 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/index'
 
-const nombreUsuario = ref('')
+const usuario = ref('')
 const clave = ref('')
 const error = ref(false)
 
 function onSubmit() {
   const authStore = useAuthStore()
-  authStore.login(nombreUsuario.value, clave.value).catch(() => (error.value = true))
+  authStore.login(usuario.value, clave.value).catch(() => (error.value = true))
 }
 </script>
 
@@ -19,13 +19,7 @@ function onSubmit() {
     </div>
     <form class="form" @submit.prevent="onSubmit">
       <label class="form-label">Usuario:</label>
-      <input
-        v-model="nombreUsuario"
-        type="text"
-        class="form-input"
-        placeholder="Usuario"
-        autofocus
-      />
+      <input v-model="usuario" type="text" class="form-input" placeholder="Usuario" autofocus />
       <label class="form-label">Contraseña:</label>
       <input v-model="clave" type="password" class="form-input" placeholder="Contraseña" />
       <p v-if="error" class="text-danger">Usuario y/o contraseña incorrectos</p>
@@ -40,20 +34,26 @@ function onSubmit() {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; /* Apilar el título y el formulario */
+  flex-direction: column;
+  /* Apilar el título y el formulario */
 }
+
 .header {
-  width: 100%; /* Asegura que el título ocupe todo el ancho */
+  width: 100%;
+  /* Asegura que el título ocupe todo el ancho */
   display: flex;
-  margin-bottom: 20px; /* Espacio entre título y formulario */
-  margin-left: 64%; 
+  margin-bottom: 20px;
+  /* Espacio entre título y formulario */
+  margin-left: 64%;
 }
+
 .title {
   color: #000000;
   text-align: right;
   font-size: 2rem;
-  margin-bottom: 1rem;  
+  margin-bottom: 1rem;
 }
+
 .form {
   margin: 1.5rem auto;
   display: flex;

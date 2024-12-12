@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-import { Usuario } from './entities/usuario.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Usuario } from './entities/usuario.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -19,29 +19,25 @@ export class UsuariosService {
 
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     const existe = await this.usuariosRepository.findOneBy({
-      nombreUsuario: createUsuarioDto.nombreUsuario.trim(),
+      usuario: createUsuarioDto.usuario.trim(),
     });
     if (existe) throw new ConflictException('El usuario ya existe');
 
     const usuario = new Usuario();
-    usuario.idEmpleado = createUsuarioDto.idEmpleado;
-    usuario.nombreUsuario = createUsuarioDto.nombreUsuario.trim();
+    usuario.usuario = createUsuarioDto.usuario.trim();
     usuario.clave = process.env.DEFAULT_PASSWORD;
+    usuario.rol = createUsuarioDto.rol.trim();
+    usuario.premium = createUsuarioDto.premium;
 
     return this.usuariosRepository.save(usuario);
   }
 
   async findAll(): Promise<Usuario[]> {
-    return this.usuariosRepository.find({
-      relations: ['empleado'],
-    });
+    return this.usuariosRepository.find();
   }
 
   async findOne(id: number): Promise<Usuario> {
-    const usuario = await this.usuariosRepository.findOne({
-      where: { id },
-      relations: ['empleado'],
-    });
+    const usuario = await this.usuariosRepository.findOneBy({ id });
     if (!usuario) throw new NotFoundException('El usuario no existe');
     return usuario;
   }
@@ -59,11 +55,11 @@ export class UsuariosService {
     const usuario = await this.findOne(id);
     return this.usuariosRepository.softRemove(usuario);
   }
-
-  async validate(nombreUsuario: string, clave: string): Promise<Usuario> {
+  //para login
+  async validate(usuario: string, clave: string): Promise<Usuario> {
     const usuarioOk = await this.usuariosRepository.findOne({
-      where: { nombreUsuario },
-      select: ['id','idEmpleado', 'nombreUsuario', 'clave'],
+      where: { usuario },
+      select: ['id', 'usuario', 'clave', 'rol', 'premium'],
     });
 
     if (!usuarioOk) throw new NotFoundException('Usuario inexistente');
@@ -74,5 +70,5 @@ export class UsuariosService {
 
     delete usuarioOk.clave;
     return usuarioOk;
-}
+  }
 }

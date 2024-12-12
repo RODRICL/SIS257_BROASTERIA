@@ -1,57 +1,53 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Cliente } from 'src/clientes/entities/cliente.entity';
-import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
-import { Repository } from 'typeorm';
-import { CreateVentaDto } from './dto/create-venta.dto';
 import { Venta } from './entities/venta.entity';
-import { UpdateVentaDto } from './dto/update-venta.dto';
+import { Repository } from 'typeorm';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
+import { Cliente } from 'src/clientes/entities/cliente.entity';
+import { CreateVentaDto } from './dto/create-venta.dto';
 
 @Injectable()
 export class VentasService {
   constructor(
     @InjectRepository(Venta) private ventasRepository: Repository<Venta>,
-    @InjectRepository(DetallesVenta)
-    private detalleventaRepository: Repository<DetallesVenta>,
   ) {}
 
-  // Elimina la verificación de "venta existente" para permitir múltiples ventas por cliente
+  // Método para crear una venta, ya recibiendo el montoTotal desde el frontend
   async create(createVentaDto: CreateVentaDto): Promise<Venta> {
-    // Ya no estamos verificando si existe una venta para este cliente
-
-    // Crear la venta sin montoTotal
+    // Crear la venta sin calcular montoTotal, solo recibiendo los valores
     const venta = new Venta();
+    venta.usuarios = { id: createVentaDto.idUsuario } as Usuario;
     venta.cliente = { id: createVentaDto.idCliente } as Cliente;
+    venta.montoTotal = createVentaDto.montoTotal; // Recibir el montoTotal directamente
 
-    // Guardamos la venta inicialmente
-    const savedVenta = await this.ventasRepository.save(venta);
+    // Guardamos la venta con el monto total enviado
+    return this.ventasRepository.save(venta);
+  }
 
-    // Obtenemos los detalles de venta para esta venta recién creada
-    const detallesVenta = await this.detalleventaRepository.find({
-      where: { venta: { id: savedVenta.id } },
+  // Método para obtener todas las ventas
+  async findAll(): Promise<Venta[]> {
+    const ventas = await this.ventasRepository.find({
+      relations: ['usuarios', 'cliente'],
     });
 
-    // Calcular el monto total
-    const montoTotal = detallesVenta.reduce(
-      (total, detalle) => total + detalle.subtotal,
-      0,
-    );
-
-    // Actualizar la venta con el montoTotal calculado
-    savedVenta.total = montoTotal;
-
-    // Guardamos la venta con el monto total actualizado
-    return this.ventasRepository.save(savedVenta);
+    // Mapear las ventas para asegurar que la fecha esté en formato ISO si es necesario
+    return ventas.map((venta) => ({
+      ...venta,
+      fecha_creacion: venta.fechaCreacion.toISOString(), // Formatear la fecha de creación a formato ISO
+    }));
   }
 
-  async findAll(): Promise<Venta[]> {
-    return this.ventasRepository.find({ relations: ['cliente'] });
-  }
-
+  // Método para obtener una venta por su ID
   async findOne(id: number): Promise<Venta> {
     const venta = await this.ventasRepository.findOne({
       where: { id },
-      relations: ['cliente', 'detalleventas'],
+      relations: [
+        'usuarios',
+        'cliente',
+        'detalleventas',
+        'detalleventas.producto',
+        'detalleventas.producto.categoria',
+      ],
     });
     if (!venta) {
       throw new NotFoundException(`La venta ${id} no existe`);
@@ -60,15 +56,21 @@ export class VentasService {
   }
 
   // Método para actualizar parcialmente una venta existente (usando PATCH)
-  async update(id: number, updateVentaDto: UpdateVentaDto): Promise<Venta> {
+  async update(id: number, updateVentaDto: CreateVentaDto): Promise<Venta> {
     const venta = await this.ventasRepository.findOne({ where: { id } });
     if (!venta) {
       throw new NotFoundException(`Venta con id ${id} no encontrada`);
     }
 
     // Actualizar los campos que vengan en el DTO
+    if (updateVentaDto.idUsuario) {
+      venta.usuarios = { id: updateVentaDto.idUsuario } as Usuario;
+    }
     if (updateVentaDto.idCliente) {
       venta.cliente = { id: updateVentaDto.idCliente } as Cliente;
+    }
+    if (updateVentaDto.montoTotal) {
+      venta.montoTotal = updateVentaDto.montoTotal; // Actualizar el montoTotal si lo envían
     }
 
     // Guardar la venta con los cambios parciales

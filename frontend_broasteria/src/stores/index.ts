@@ -7,13 +7,13 @@ const useAuthStore = defineStore('auth', {
   state: () => ({
     user: localStorage.getItem('user') || '',
     token: getTokenFromLocalStorage(),
-    returnUrl: null || '',
+    returnUrl: false || '',
   }),
   getters: {},
   actions: {
-    async login(nombreUsuario: string, clave: string) {
-      await http.post('auth/login', { nombreUsuario, clave }).then((response) => {
-        this.user = response.data.nombreUsuario
+    async login(usuario: string, clave: string) {
+      await http.post('auth/login', { usuario, clave }).then((response) => {
+        this.user = response.data.usuario
         this.token = response.data.access_token
 
         localStorage.setItem('user', this.user || '')

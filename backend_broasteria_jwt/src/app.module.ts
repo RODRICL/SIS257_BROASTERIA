@@ -3,17 +3,15 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CategoriasModule } from './categorias/categorias.module';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { ProveedoresModule } from './proveedores/proveedores.module';
+import { CategoriaModule } from './categoria/categoria.module';
 import { ClientesModule } from './clientes/clientes.module';
-import { EmpleadosModule } from './empleados/empleados.module';
 import { ProductosModule } from './productos/productos.module';
 import { VentasModule } from './ventas/ventas.module';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { PromocionesModule } from './promociones/promociones.module';
-import { ProveedoresModule } from './proveedores/proveedores.module';
-import { PagosModule } from './pagos/pagos.module';
-import { DetallesVentasModule } from './detalles-ventas/detalles-ventas.module';
+import { DetalleventaModule } from './detalleventa/detalleventa.module';
 import { AuthModule } from './auth/auth.module';
+import { EmpleadosModule } from './empleados/empleados.module';
 
 @Module({
   imports: [
@@ -29,17 +27,15 @@ import { AuthModule } from './auth/auth.module';
       synchronize: true,
       autoLoadEntities: true,
     }),
-    CategoriasModule,
+    UsuariosModule,
+    ProveedoresModule,
+    CategoriaModule,
     ClientesModule,
-    EmpleadosModule,
     ProductosModule,
     VentasModule,
-    UsuariosModule,
-    PromocionesModule,
-    ProveedoresModule,
-    PagosModule,
-    DetallesVentasModule,
+    DetalleventaModule,
     AuthModule,
+    EmpleadosModule,
   ],
   controllers: [AppController],
   providers: [AppService],

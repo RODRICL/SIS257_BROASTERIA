@@ -39,12 +39,7 @@ defineExpose({ obtenerLista })
 <template>
   <div class="container">
     <!-- Botón de Crear Nuevo Producto -->
-    <Button
-      label="Crear Nuevo Producto"
-      icon="pi pi-plus"
-      class="crear-boton"
-      @click="emit('edit')" 
-    />
+    <Button label="Crear Nuevo Producto" icon="pi pi-plus" class="crear-boton" @click="emit('edit')" />
 
     <!-- Tabla de productos -->
     <table class="tabla-productos">
@@ -54,8 +49,8 @@ defineExpose({ obtenerLista })
           <th>Categoria</th>
           <th>Nombre</th>
           <th>Descripcion</th>
-          <th>Cantidad disponible</th>
           <th>Precio</th>
+          <th>Cantidad disponible</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -65,37 +60,24 @@ defineExpose({ obtenerLista })
           <td>{{ producto.categoria.nombre }}</td>
           <td>{{ producto.nombre }}</td>
           <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.cantidadDisponible }}</td>
-          <td>{{ producto.precio }}</td>
+          <td>{{ producto.precioVenta }}</td>
+          <td>{{ producto.stock }}</td>
           <td>
-            <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(producto)" style="color: white;" />
-            <Button
-            style="color: white;"
-              icon="pi pi-trash"
-              aria-label="Eliminar"
-              text
-              @click="mostrarEliminarConfirm(producto)"
-            />
+            <Button icon="pi pi-pencil" aria-label="Editar" text @click="emitirEdicion(producto)"
+              style="color: white;" />
+            <Button style="color: white;" icon="pi pi-trash" aria-label="Eliminar" text
+              @click="mostrarEliminarConfirm(producto)" />
           </td>
         </tr>
       </tbody>
     </table>
 
     <!-- Diálogo de Confirmación de Eliminación -->
-    <Dialog
-      v-model:visible="mostrarConfirmDialog"
-      header="Confirmar Eliminación"
-      :style="{ width: '25rem' }"
-    >
+    <Dialog v-model:visible="mostrarConfirmDialog" header="Confirmar Eliminación" :style="{ width: '25rem' }">
       <p>¿Estás seguro de que deseas eliminar este registro?</p>
       <div class="flex justify-end gap-2">
-        <Button
-          type="button"
-          label="Cancelar"
-          severity="secondary"
-          @click="mostrarConfirmDialog = false"
-        />
-        <Button type="button" label="Eliminar" @click="eliminar" style="color: white;"/>
+        <Button type="button" label="Cancelar" severity="secondary" @click="mostrarConfirmDialog = false" />
+        <Button type="button" label="Eliminar" @click="eliminar" style="color: white;" />
       </div>
     </Dialog>
   </div>
@@ -104,9 +86,12 @@ defineExpose({ obtenerLista })
 <style scoped>
 /* Contenedor principal */
 .container {
-  max-width: 1200px; /* Limitar el ancho */
-  margin: 0 auto; /* Centrar el contenido */
-  padding: 20px; /* Espaciado interno para evitar que los elementos toquen los bordes */
+  max-width: 1200px;
+  /* Limitar el ancho */
+  margin: 0 auto;
+  /* Centrar el contenido */
+  padding: 20px;
+  /* Espaciado interno para evitar que los elementos toquen los bordes */
 }
 
 /* Estilo para la tabla */
@@ -141,7 +126,8 @@ defineExpose({ obtenerLista })
 /* Estilo para el botón de crear nuevo */
 .crear-boton {
   margin-bottom: 20px;
-  background-color: #d8ec48; /* Color verde */
+  background-color: #d8ec48;
+  /* Color verde */
   color: rgb(3, 3, 3);
   border: none;
   padding: 10px 20px;
@@ -150,7 +136,8 @@ defineExpose({ obtenerLista })
 }
 
 .crear-boton:hover {
-  background-color: #d4ac44; /* Color verde oscuro al pasar el ratón */
+  background-color: #d4ac44;
+  /* Color verde oscuro al pasar el ratón */
   color: black;
 }
 

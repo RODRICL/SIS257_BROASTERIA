@@ -1,4 +1,4 @@
-import { Empleado } from 'src/empleados/entities/empleado.entity';
+import { Venta } from 'src/ventas/entities/venta.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -6,26 +6,29 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
-  OneToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt'; // para login
+import { Empleado } from 'src/empleados/entities/empleado.entity';
 
 @Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column('integer', { name: 'id_empleado' })
-  idEmpleado: number;
+  @Column('varchar', { length: 20 })
+  usuario: string;
 
-  @Column('varchar', { name: 'nombre_usuario', length: 15 })
-  nombreUsuario: string;
-
-  @Column('varchar', { length: 250 })
+  @Column('varchar', { length: 250, select: false })
   clave: string;
+
+  @Column('varchar', { length: 30 })
+  rol: string;
+
+  @Column('boolean')
+  premium: boolean;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;
@@ -33,13 +36,17 @@ export class Usuario {
   @UpdateDateColumn({ name: 'fecha_modificacion' })
   fechaModificacion: Date;
 
-  @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
+  @DeleteDateColumn({ name: 'fecha_elimanacion', select: false })
   fechaEliminacion: Date;
 
-  @OneToOne(() => Empleado, (empleado) => empleado.usuario)
-  @JoinColumn({ name: 'id_empleado', referencedColumnName: 'id' })
-  empleado: Empleado;
+  @OneToMany(() => Venta, (venta) => venta.usuarios)
+  ventas: Venta[];
 
+  //Este esta listo....
+  @OneToMany(() => Empleado, (empleado) => empleado.usuarios)
+  empleados: Empleado[];
+
+  //para login
   @BeforeInsert()
   @BeforeUpdate()
   async hashPassword() {

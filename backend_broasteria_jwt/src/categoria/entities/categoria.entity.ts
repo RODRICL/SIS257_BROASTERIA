@@ -9,16 +9,13 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('categorias')
+@Entity('categoria')
 export class Categoria {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column('varchar', { length: 30 })
+  @Column('varchar', { length: 50 })
   nombre: string;
-
-  @Column('varchar', { length: 250 })
-  descripcion: string;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
   fechaCreacion: Date;

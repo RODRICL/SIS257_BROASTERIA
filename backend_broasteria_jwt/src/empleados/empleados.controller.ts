@@ -14,9 +14,9 @@ import { UpdateEmpleadoDto } from './dto/update-empleado.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 
-@ApiTags('Empleados')
-@ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@ApiTags('empleados') // Swagger
+@ApiBearerAuth() //lo de documentacion para logiar
+@UseGuards(JwtAuthGuard) //lo de documentacion para logiar
 @Controller('empleados')
 export class EmpleadosController {
   constructor(private readonly empleadosService: EmpleadosService) {}

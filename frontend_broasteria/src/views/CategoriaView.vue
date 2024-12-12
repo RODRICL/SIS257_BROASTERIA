@@ -33,13 +33,8 @@ function handleGuardar() {
     <h1 style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Categorias</h1>
     <!-- <Button label="Crear Nuevo" icon="pi pi-plus" @click="hableCreate" /> -->
     <CategoriaList ref="categoriaListRef" @edit="handleEdit" />
-    <CategoriaSave
-      :mostrar="mostrarDialog"
-      :categoria="categoriaEdit"
-      :modoEdicion="!!categoriaEdit"
-      @guardar="handleGuardar"
-      @close="handleCloseDialog"
-    />
+    <CategoriaSave :mostrar="mostrarDialog" :categoria="categoriaEdit" :modoEdicion="!!categoriaEdit"
+      @guardar="handleGuardar" @close="handleCloseDialog" />
   </div>
 </template>
 

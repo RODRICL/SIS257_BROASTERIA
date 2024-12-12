@@ -1,6 +1,6 @@
 import { Cliente } from 'src/clientes/entities/cliente.entity';
-import { DetallesVenta } from 'src/detalles-ventas/entities/detalles-venta.entity';
-import { Pago } from 'src/pagos/entities/pago.entity';
+import { Detalleventa } from 'src/detalleventa/entities/detalleventa.entity';
+import { Usuario } from 'src/usuarios/entities/usuario.entity';
 import {
   Column,
   CreateDateColumn,
@@ -9,41 +9,39 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('ventas')
 export class Venta {
-  @PrimaryGeneratedColumn('identity')
+  @PrimaryGeneratedColumn()
   id: number;
 
-  @Column('integer', { name: 'id_cliente' })
-  idCliente: number;
-
-  @Column('date', { name: 'fecha_venta' , nullable: true })
-  fechaVenta: Date;
-
-  @Column('int', { nullable: true})
-  total: number;
-
-  @CreateDateColumn({ name: 'fecha_creacion' })
-  fechaCreacion: Date;
-
-  @UpdateDateColumn({ name: 'fecha_modificacion' })
-  fechaModificacion: Date;
-
-  @DeleteDateColumn({ name: 'fecha_eliminacion', select: false })
-  fechaEliminacion: Date;
+  @ManyToOne(() => Usuario, (usuario) => usuario.ventas)
+  @JoinColumn({ name: 'id_usuario', referencedColumnName: 'id' })
+  usuarios: Usuario;
 
   @ManyToOne(() => Cliente, (cliente) => cliente.ventas)
   @JoinColumn({ name: 'id_cliente', referencedColumnName: 'id' })
   cliente: Cliente;
 
-  @OneToOne(() => Pago, (pago) => pago.venta)
-  pago: Pago[];
+  @OneToMany(() => Detalleventa, (detalleventa) => detalleventa.venta)
+  detalleventas: Detalleventa[];
 
-  @OneToMany(() => DetallesVenta, (detallesVentas) => detallesVentas.venta)
-  detallesVentas: DetallesVenta[];
+  @Column('decimal', {
+    precision: 10,
+    scale: 2,
+    nullable: true,
+  })
+  montoTotal: number;
+
+  @CreateDateColumn({ name: 'fecha_creacion', nullable: true })
+  fechaCreacion: Date;
+
+  @UpdateDateColumn({ name: 'fecha_modificacion' })
+  fechaModificacion: Date;
+
+  @DeleteDateColumn({ name: 'fecha_elimanacion', select: false })
+  fechaEliminacion: Date;
 }

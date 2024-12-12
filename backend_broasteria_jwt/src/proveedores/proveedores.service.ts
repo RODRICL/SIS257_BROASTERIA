@@ -3,11 +3,12 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateProveedorDto } from './dto/create-proveedor.dto';
+
 import { UpdateProveedorDto } from './dto/update-proveedor.dto';
+import { CreateProveedorDto } from './dto/create-proveedor.dto';
+import { InjectRepository } from '@nestjs/typeorm';
 import { Proveedor } from './entities/proveedor.entity';
 import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class ProveedoresService {
@@ -15,36 +16,31 @@ export class ProveedoresService {
     @InjectRepository(Proveedor)
     private proveedoresRepository: Repository<Proveedor>,
   ) {}
+
   async create(createProveedorDto: CreateProveedorDto): Promise<Proveedor> {
     const existe = await this.proveedoresRepository.findOneBy({
-      nombre: createProveedorDto.nombre.trim(),
-      apellidoPaterno: createProveedorDto.apellidoPaterno.trim(),
-      telefono: createProveedorDto.telefono.trim(),
+      nit: createProveedorDto.nit.trim(),
+      razonSocial: createProveedorDto.razonSocial.trim(),
     });
 
-    if (existe) throw new ConflictException('La proveedor ya existe');
+    if (existe) throw new ConflictException('El proveedor ya existe');
 
     const proveedor = new Proveedor();
-    proveedor.idProducto = createProveedorDto.idProducto;
-    proveedor.nombre = createProveedorDto.nombre.trim();
-    proveedor.apellidoPaterno = createProveedorDto.apellidoPaterno.trim();
-    proveedor.telefono = createProveedorDto.telefono.trim();
+    proveedor.nit = createProveedorDto.nit.trim();
+    proveedor.razonSocial = createProveedorDto.razonSocial.trim();
     proveedor.direccion = createProveedorDto.direccion.trim();
+    proveedor.telefono = createProveedorDto.telefono.trim();
+    proveedor.email = createProveedorDto.email.trim();
     return this.proveedoresRepository.save(proveedor);
   }
 
   async findAll(): Promise<Proveedor[]> {
-    return this.proveedoresRepository.find({
-      relations: ['producto'],
-    });
+    return this.proveedoresRepository.find();
   }
 
   async findOne(id: number): Promise<Proveedor> {
-    const proveedor = await this.proveedoresRepository.findOne({
-      where: { id },
-      relations: ['producto'],
-    });
-    if (!proveedor) throw new NotFoundException('La proveedor no existe');
+    const proveedor = await this.proveedoresRepository.findOneBy({ id });
+    if (!proveedor) throw new NotFoundException('El interprete no existe');
     return proveedor;
   }
 

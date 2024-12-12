@@ -115,9 +115,7 @@ export default {
           <tr v-for="(venta, index) in ventas" :key="venta.id">
             <td>{{ formatDate(venta.fechaCreacion) }}</td>
             <td>
-              {{ venta.cliente.nombres }}
-              {{ venta.cliente.apellidoPaterno }}
-              {{ venta.cliente.apellidoMaterno }}
+              {{ venta.cliente.nombreCompleto }}
             </td>
             <td>{{ venta.montoTotal }}</td>
             <td>

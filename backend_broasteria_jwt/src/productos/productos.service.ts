@@ -6,8 +6,9 @@ import {
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Producto } from './entities/producto.entity';
 import { Repository } from 'typeorm';
+import { Producto } from './entities/producto.entity';
+import { Categoria } from 'src/categoria/entities/categoria.entity';
 
 @Injectable()
 export class ProductosService {
@@ -15,27 +16,35 @@ export class ProductosService {
     @InjectRepository(Producto)
     private productosRepository: Repository<Producto>,
   ) {}
+
   async create(createProductoDto: CreateProductoDto): Promise<Producto> {
     const existe = await this.productosRepository.findOneBy({
       nombre: createProductoDto.nombre.trim(),
-      idCategoria: createProductoDto.idCategoria,
     });
 
-    if (existe) throw new ConflictException('El producto ya existe');
+    if (existe) {
+      throw new ConflictException('El Producto ya existe');
+    }
 
     const producto = new Producto();
-    producto.idCategoria = createProductoDto.idCategoria;
     producto.nombre = createProductoDto.nombre.trim();
     producto.descripcion = createProductoDto.descripcion.trim();
-    producto.cantidadDisponible = createProductoDto.cantidadDisponible;
-    producto.precio = createProductoDto.precio;
+    producto.precioVenta = createProductoDto.precioVenta;
+    producto.stock = createProductoDto.stock;
+    producto.categoria = { id: createProductoDto.idCategoria } as Categoria;
     return this.productosRepository.save(producto);
   }
 
   async findAll(): Promise<Producto[]> {
-    return this.productosRepository.find({
-      relations: ['categoria'],
-    });
+    return this.productosRepository.find({ relations: ['categoria'] });
+  }
+
+  async findByInterprete(idCategoria: number): Promise<Producto[]> {
+    return this.productosRepository
+      .createQueryBuilder('productos')
+      .innerJoin('productos.categoria', 'categoria')
+      .where('categoria.id = :idCategoria', { idCategoria })
+      .getMany();
   }
 
   async findOne(id: number): Promise<Producto> {
@@ -43,7 +52,9 @@ export class ProductosService {
       where: { id },
       relations: ['categoria'],
     });
-    if (!producto) throw new NotFoundException('El producto no existe');
+    if (!producto) {
+      throw new NotFoundException(`El producto ${id} no existe`);
+    }
     return producto;
   }
 
@@ -51,16 +62,17 @@ export class ProductosService {
     id: number,
     updateProductoDto: UpdateProductoDto,
   ): Promise<Producto> {
-    const producto = await this.productosRepository.findOneBy({ id });
-    if (!producto) throw new NotFoundException('El producto no existe');
-
-    const productoUpdate = Object.assign(producto, updateProductoDto);
-    return this.productosRepository.save(productoUpdate);
+    const producto = await this.findOne(id);
+    producto.nombre = updateProductoDto.nombre.trim();
+    producto.descripcion = updateProductoDto.descripcion.trim();
+    producto.precioVenta = updateProductoDto.precioVenta;
+    producto.stock = updateProductoDto.stock;
+    producto.categoria = { id: updateProductoDto.idCategoria } as Categoria;
+    return this.productosRepository.save(producto);
   }
 
   async remove(id: number) {
-    const producto = await this.productosRepository.findOneBy({ id });
-    if (!producto) throw new NotFoundException('El producto no existe');
+    const producto = await this.findOne(id);
     return this.productosRepository.softRemove(producto);
   }
 }
