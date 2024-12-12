@@ -57,18 +57,18 @@ async function handleSave() {
 <template>
   <div class="card flex justify-center">
     <Dialog v-model:visible="dialogVisible" :header="props.modoEdicion ? 'Editar' : 'Crear'" style="width: 25rem">
-      <div class="flex items-center gap-4 mb-4">
-        <label for="ci" class="font-semibold w-4">CI</label>
-        <InputText id="ci" v-model="cliente.ci" class="flex-auto" autocomplete="off" autofocus />
+      <div class="form-group">
+        <label for="ci" class="form-label">CI</label>
+        <InputText id="ci" v-model="cliente.ci" class="form-input" autocomplete="off" autofocus />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="nombreCompleto" class="font-semibold w-4">Nombre Completo</label>
-        <InputText id="nombreCompleto" v-model="cliente.nombreCompleto" class="flex-auto" autocomplete="off"
+      <div class="form-group">
+        <label for="nombreCompleto" class="form-label">Nombre Completo</label>
+        <InputText id="nombreCompleto" v-model="cliente.nombreCompleto" class="form-input" autocomplete="off"
           autofocus />
       </div>
-      <div class="flex items-center gap-4 mb-4">
-        <label for="celular" class="font-semibold w-4">Teléfono</label>
-        <InputText id="celular" v-model="cliente.celular" class="flex-auto" autocomplete="off" autofocus />
+      <div class="form-group">
+        <label for="celular" class="form-label">Teléfono</label>
+        <InputText id="celular" v-model="cliente.celular" class="form-input" autocomplete="off" autofocus />
       </div>
       <div class="flex justify-end gap-2">
         <Button type="button" label="Cancelar" icon="pi pi-times" severity="secondary"
@@ -80,6 +80,41 @@ async function handleSave() {
 </template>
 
 <style scoped>
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  flex: 1;
+  /* Las etiquetas ocupan el mismo ancho */
+  text-align: right;
+  /* Alinea el texto a la derecha */
+  font-weight: bold;
+}
+
+.form-input {
+  flex: 2;
+  /* Los campos de entrada ocupan el doble de ancho que las etiquetas */
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
 /* Estilo para los inputs (campos de formulario) */
 .custom-input {
   background-color: rgb(0, 0, 0) !important;
@@ -92,7 +127,7 @@ async function handleSave() {
 }
 
 .custom-input:focus {
-  border-color: #b3ff00;
+  border-color: #ff9f00;
   /* Color de borde azul cuando el campo está en foco */
   outline: none;
   /* Quitar el borde de enfoque predeterminado */

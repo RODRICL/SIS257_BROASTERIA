@@ -97,7 +97,7 @@ defineExpose({ obtenerLista })
 }
 
 .table-categoria th {
-  background-color: #d8ec48;
+  background-color: #ff9f00;
   color: rgb(0, 0, 0);
 }
 
@@ -113,7 +113,7 @@ defineExpose({ obtenerLista })
 /* Estilo para el botón de crear nuevo */
 .crear-boton {
   margin-bottom: 20px;
-  background-color: #d8ec48;
+  background-color: #ff9f00;
   /* Color verde */
   color: rgb(3, 3, 3);
   border: none;

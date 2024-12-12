@@ -64,7 +64,7 @@ function agregarAlCarrito(producto: Producto) {
           <td>{{ producto.stock }}</td>
           <td>
             <!-- Botón para agregar al carrito -->
-            <Button icon="pi pi-cart" label="Agregar al Carrito" @click="agregarAlCarrito(producto)" />
+            <Button icon="pi pi-cart" label="Agregar Producto" @click="agregarAlCarrito(producto)" />
           </td>
         </tr>
       </tbody>
@@ -76,7 +76,7 @@ function agregarAlCarrito(producto: Producto) {
 table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 10px rgba(0, 223, 86, 0.87);
+  box-shadow: 0 2px 10px rgba(253, 255, 254, 0.87);
   /* Sombra sutil */
   background-color: #dadadaa1;
   /* Fondo claro para la tabla */
@@ -85,7 +85,7 @@ table {
 
 /* Estilo para las cabeceras */
 th {
-  background-color: rgba(0, 223, 86, 0.87);
+  background-color: #ff9f00;
   /* Fondo azul para las cabeceras */
   color: rgb(0, 0, 0);
   /* Color blanco para las letras */
@@ -111,7 +111,7 @@ td {
 
 /* Efecto hover en las filas */
 tr:hover {
-  background-color: #00ff00;
+  background-color: #f4b44d;
   /* Fondo celeste al pasar el mouse */
   transition: background-color 0.3s ease;
   /* Transición suave al pasar el mouse */
@@ -119,7 +119,7 @@ tr:hover {
 
 
 button {
-  background-color: #28a745;
+  background-color: #ff9f00;
   color: rgb(3, 3, 3);
   border: none;
   padding: 8px 15px;
@@ -131,7 +131,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #a86b07;
   /* Fondo verde más oscuro al pasar el mouse */
 }
 

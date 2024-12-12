@@ -195,7 +195,7 @@ export default {
 }
 
 .ventas-table th {
-  background-color: #67eb67;
+  background-color: #ff9f00;
   font-weight: bold;
   text-transform: uppercase;
 }
@@ -205,7 +205,7 @@ export default {
 }
 
 .ventas-table tr:hover {
-  background-color: #77e21f;
+  background-color: #f4b44d;
 }
 
 .detalle-table {
@@ -225,7 +225,7 @@ export default {
 }
 
 .detalle-table th {
-  background-color: #4CAF50;
+  background-color: #ff9f00;
   /* Fondo de las cabeceras */
   color: white;
   /* Color del texto en las cabeceras */
@@ -243,12 +243,12 @@ export default {
 }
 
 .detalle-table tr:hover td {
-  background-color: #00ff00;
+  background-color: #f4b44d;
   /* Fondo al pasar el cursor sobre una fila */
 }
 
 button {
-  background-color: #0dc544;
+  background-color: #ff9f00;
   color: rgb(7, 7, 7);
   border: none;
   padding: 8px 16px;
@@ -263,7 +263,7 @@ button {
 }
 
 .cerrar-detalles-btn {
-  background-color: #f80019;
+  background-color: #ff9f00;
   color: rgb(253, 253, 253);
 }
 
@@ -284,7 +284,7 @@ button {
 }
 
 .ocultar-btn {
-  background-color: #f80019;
+  background-color: #ff9f00;
   color: white;
   transition: none;
 }

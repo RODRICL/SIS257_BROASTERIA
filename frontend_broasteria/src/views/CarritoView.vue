@@ -35,7 +35,7 @@ export default {
 
     // Para mostrar la imagen
     const mostrarImagen = ref(false);  // Estado para controlar la visibilidad de la imagen
-    const mostrarImagenInicial = ref(false);
+    //const mostrarImagenInicial = ref(false);
     // Cargar clientes del backend
     const obtenerClientes = async () => {
       try {
@@ -173,7 +173,7 @@ export default {
         })
         .then(() => {
           cartStore.vaciarCarrito();
-          alert('Compra registrada. Tienes un periodo de 3 días para realizar el pago, de lo contrario, la compra será cancelada.');
+          alert('Venta registrada con éxito');
 
         })
         .catch(error => {
@@ -209,7 +209,7 @@ export default {
       // Muestra el alert con el mensaje informativo
       setTimeout(() => {
         mensaje.value = 'Seleccione el cliente. Si sus datos no se encuentran, por favor regístrese como nuevo cliente en el menú.';
-        mostrarMensaje.value = true;
+        mostrarMensaje.value = false;
       }, 100); // Usamos un pequeño retraso para asegurarnos de que el formulario ya esté visible
     }
 
@@ -262,17 +262,18 @@ export default {
 
 <template>
   <div class="m-8">
-    <h1 style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Tu Carrito</h1>
+    <h1 style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Nueva Venta</h1>
 
     <div v-if="cartStore.productos.length === 0" class="empty-cart">
-      <p style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">Tu carrito está vacío. </p>
+      <p style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white">La venta no tiene productos.
+      </p>
       <p style="font-family: 'Times New Roman', sans-serif; font-weight: bold; color:white"> ¡Agrega algunos productos!
       </p>
       <div>
-        <button @click="mostrarImagenQR" class="generar-qr"
+        <!-- <button @click="mostrarImagenQR" class="generar-qr"
           :class="{ 'btn-ocultar': mostrarImagen, 'btn-mostrar': !mostrarImagen }">
           {{ mostrarImagen ? 'Ocultar QR De Pagos' : 'Mostrar QR De Pagos' }}
-        </button>
+        </button> -->
       </div>
 
       <div v-if="mostrarImagen" class="imagen-centrada">
@@ -323,15 +324,15 @@ export default {
 
       <div class="botones-acciones">
         <button @click="mostrarFormulario" class="seleccionar-cliente">Seleccionar Cliente</button>
-        <button @click="vaciarCarrito">Vaciar carrito</button>
+        <button @click="vaciarCarrito">Descartar Venta</button>
         <button @click="registrarVenta" class="registrar-venta">Registrar venta</button>
       </div>
 
       <div>
-        <button @click="mostrarImagenQR" class="generar-qr"
+        <!-- <button @click="mostrarImagenQR" class="generar-qr"
           :class="{ 'btn-ocultar': mostrarImagen, 'btn-mostrar': !mostrarImagen }">
           {{ mostrarImagen ? 'Ocultar QR De Pagos' : 'Mostrar QR De Pagos' }}
-        </button>
+        </button> -->
       </div>
 
 
@@ -406,7 +407,7 @@ export default {
 .cart-table {
   width: 100%;
   border-collapse: collapse;
-  box-shadow: 0 2px 10px rgba(7, 201, 7, 0.952);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.952);
   /* Sombra sutil alrededor de la tabla */
   background-color: #dadadaa1;
   /* Fondo claro de la tabla */
@@ -416,7 +417,7 @@ export default {
 
 /* Estilo para las cabeceras de la tabla */
 .cart-table th {
-  background-color: #67eb67;
+  background-color: #ff9f00;
   /* Fondo azul para las cabeceras */
   color: rgb(0, 0, 0);
   /* Color de texto blanco en las cabeceras */
@@ -442,7 +443,7 @@ export default {
 
 /* Estilo para las filas al pasar el cursor (hover) */
 .cart-table tr:hover {
-  background-color: #00ff00;
+  background-color: #f4b44d;
   /* Fondo celeste al pasar el cursor */
   transition: background-color 0.3s ease;
   /* Transición suave en el hover */
@@ -494,7 +495,7 @@ export default {
 }
 
 button {
-  background-color: #28a745;
+  background-color: #ff9f00;
   color: rgb(2, 2, 2);
   border: 1px solid #000;
   padding: 10px 20px;
@@ -513,7 +514,7 @@ button {
 }
 
 button:hover {
-  background-color: #218838;
+  background-color: #a86b07;
 }
 
 .registrar-venta {
@@ -526,7 +527,7 @@ button:hover {
 }
 
 .eliminar-btn {
-  background-color: #28a745;
+  background-color: #ff9f00;
   color: rgb(0, 0, 0);
   border: 1px solid black;
   padding: 8px 15px;
@@ -536,7 +537,7 @@ button:hover {
 }
 
 .eliminar-btn:hover {
-  background-color: #fc0019;
+  background-color: #a86b07;
 }
 
 .cantidad-controls {
@@ -557,7 +558,7 @@ button:hover {
   display: flex;
   flex-direction: column;
   gap: 20px;
-  background-color: #27c23c;
+  background-color: #818181;
   /* Fondo claro para el formulario */
   padding: 20px;
   border-radius: 8px;
@@ -632,7 +633,7 @@ label {
 }
 
 .aceptar-formulario {
-  background-color: #28a745;
+  background-color: #ff9f00;
   color: rgb(7, 7, 7);
   padding: 8px 16px;
   border: 1px solid black;
@@ -643,7 +644,7 @@ label {
 }
 
 .aceptar-formulario:hover {
-  background-color: #c82333;
+  background-color: #ff9f00;
 }
 
 .cerrar-formulario {
@@ -659,7 +660,7 @@ label {
 }
 
 .cerrar-formulario:hover {
-  background-color: #218838;
+  background-color: #fb8c00;
 }
 
 /* Estilo para el botón Generar QR */
@@ -686,14 +687,14 @@ label {
 .custom-dialog .p-dialog {
   background-color: #ee0000 !important;
   /* Fondo */
-  border: 2px solid #4CAF50 !important;
+  border: 2px solid #fb8c00 !important;
   /* Borde */
   color: #fbfdfb;
   /* Color del texto */
 }
 
 .custom-dialog .p-dialog-header {
-  background-color: #4CAF50 !important;
+  background-color: #fb8c00 !important;
   /* Fondo del header */
   color: rgb(255, 255, 255);
   /* Color del texto del header */
@@ -701,13 +702,13 @@ label {
 
 
 .custom-dialog .p-button {
-  background-color: #28a745 !important;
+  background-color: #ff9f00 !important;
   /* Color del botón */
   color: white !important;
 }
 
 .custom-dialog .p-button:hover {
-  background-color: #218838 !important;
+  background-color: #fb8c00 !important;
   /* Hover del botón */
 }
 
