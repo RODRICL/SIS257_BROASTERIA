@@ -41,6 +41,16 @@ const router = createRouter({
       name: 'carrito',
       component: () => import('../views/CarritoView.vue'),
     },
+    {
+      path: '/prueba/',
+      name: 'prueba',
+      component: () => import('../views/PruebaView.vue'),
+    },
+    {
+      path: '/historial/',
+      name: 'historial',
+      component: () => import('../views/HistorialView.vue'),
+    },
   ],
 })
 

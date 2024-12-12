@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from '@/stores/index'
 import http from '@/plugins/axios'
 import router from '@/router'
 import type { ProductoCarrito } from '@/models/productoCarrito'
@@ -38,8 +37,6 @@ export const useCartStore = defineStore('cart', {
 
     // Acción para realizar la venta
     async realizarVenta(idCliente: number) {
-      const authStore = useAuthStore()
-
       // Si no hay productos en el carrito, no proceder
       if (this.productos.length === 0) {
         console.error('El carrito está vacío')
@@ -53,15 +50,14 @@ export const useCartStore = defineStore('cart', {
 
       try {
         // Obtener el monto total sumando los subtotales de cada producto
-        const montoTotal = this.productos.reduce((total, producto) => {
+        const total = this.productos.reduce((total, producto) => {
           return total + producto.precio * producto.cantidad
         }, 0)
 
         // Crear el objeto de venta
         const ventaData = {
-          idUsuario: authStore.userId, // Obtener idUsuario desde el store de auth
           idCliente: this.idCliente, // Usamos el idCliente desde el estado
-          montoTotal,
+          total,
           productos: this.productos.map((producto) => ({
             idProducto: producto.id,
             cantidad: producto.cantidad,

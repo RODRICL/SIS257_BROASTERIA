@@ -25,7 +25,7 @@ export class Venta {
   @Column('date', { name: 'fecha_venta' , nullable: true })
   fechaVenta: Date;
 
-  @Column('int')
+  @Column('int', { nullable: true})
   total: number;
 
   @CreateDateColumn({ name: 'fecha_creacion' })
